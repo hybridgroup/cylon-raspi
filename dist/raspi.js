@@ -97,7 +97,7 @@
       Raspi.prototype.servoWrite = function(pin, value) {};
 
       Raspi.prototype._raspiPin = function(pin, mode) {
-        pin = _translatePin(pin);
+        pin = this._translatePin(pin);
         if ((pins[pin] != null)) {
           pins[pin] = new Cylon.IO.DigitalPin({
             pin: pin,

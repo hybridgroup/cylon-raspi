@@ -75,7 +75,7 @@ namespace "Cylon.Adaptor", ->
     servoWrite: (pin, value) ->
 
     _raspiPin: (pin, mode) ->
-      pin = _translatePin(pin)
+      pin = @_translatePin(pin)
       pins[pin] = new Cylon.IO.DigitalPin(pin: pin, mode: mode) if (pins[pin]?)
       pins[pin]
 
