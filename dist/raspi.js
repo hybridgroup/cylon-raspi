@@ -70,6 +70,8 @@
       };
 
       Raspi.prototype.disconnect = function() {
+        Logger.debug("Disconnecting all pins...");
+        this._disconnectPins();
         Logger.debug("Disconnecting from board '" + this.name + "'...");
         return this.connection.emit('disconnect');
       };
@@ -140,6 +142,19 @@
           return _this.connection.emit(eventName, val);
         });
         return pin;
+      };
+
+      Raspi.prototype._disconnectPins = function() {
+        var pin, _i, _len, _ref, _results;
+        _ref = this.pins;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          pin = _ref[_i];
+          if (pin != null) {
+            _results.push(pin.close());
+          }
+        }
+        return _results;
       };
 
       return Raspi;

@@ -51,6 +51,8 @@ namespace "Cylon.Adaptor", ->
       @proxyMethods @commands, @board, Raspi
 
     disconnect: ->
+      Logger.debug "Disconnecting all pins..."
+      @_disconnectPins()
       Logger.debug "Disconnecting from board '#{@name}'..."
       @connection.emit 'disconnect'
 
@@ -96,3 +98,6 @@ namespace "Cylon.Adaptor", ->
        pin = @_raspiPin(pinNum, 'w')
        pin.on(eventName, (val) => @connection.emit(eventName, val))
        pin
+
+    _disconnectPins: ->
+      pin.close() for pin in @pins when pin?
