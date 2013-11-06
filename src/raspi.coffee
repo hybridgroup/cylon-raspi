@@ -76,8 +76,8 @@ namespace "Cylon.Adaptor", ->
 
     _raspiPin: (pin, mode) ->
       pin = @_translatePin(pin)
-      pins[pin] = new Cylon.IO.DigitalPin(pin: pin, mode: mode) if (pins[pin]?)
-      pins[pin]
+      @pins[pin] = new Cylon.IO.DigitalPin(pin: pin, mode: mode) if (@pins[pin]?)
+      @pins[pin]
 
     _translatePin: (pin) ->
       PINS[pin]

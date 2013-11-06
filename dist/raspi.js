@@ -98,13 +98,13 @@
 
       Raspi.prototype._raspiPin = function(pin, mode) {
         pin = this._translatePin(pin);
-        if ((pins[pin] != null)) {
-          pins[pin] = new Cylon.IO.DigitalPin({
+        if ((this.pins[pin] != null)) {
+          this.pins[pin] = new Cylon.IO.DigitalPin({
             pin: pin,
             mode: mode
           });
         }
-        return pins[pin];
+        return this.pins[pin];
       };
 
       Raspi.prototype._translatePin = function(pin) {
