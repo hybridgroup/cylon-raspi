@@ -117,7 +117,7 @@
       Raspi.prototype._raspiPin = function(pinNum, mode) {
         var gpioPinNum;
         gpioPinNum = this._translatePin(pinNum);
-        if ((this.pins[gpioPinNum] == null) && mode !== this.pins[gpioPinNum].mode) {
+        if (this.pins[gpioPinNum] == null) {
           this.pins[gpioPinNum] = new Cylon.IO.DigitalPin({
             pin: gpioPinNum,
             mode: mode
