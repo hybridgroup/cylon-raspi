@@ -56,6 +56,7 @@
         this.name = opts.name;
         this.board = "";
         this.pins = {};
+        this.myself;
       }
 
       Raspi.prototype.commands = function() {
@@ -66,7 +67,7 @@
         Logger.debug("Connecting to board '" + this.name + "'...");
         this.connection.emit('connect');
         callback(null);
-        return this.proxyMethods(this.commands, this.board, Raspi);
+        return this.proxyMethods(this.commands, this.board, this.myself);
       };
 
       Raspi.prototype.disconnect = function() {

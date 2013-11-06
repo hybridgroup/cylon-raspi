@@ -38,6 +38,7 @@ namespace "Cylon.Adaptor", ->
       @name = opts.name
       @board = ""
       @pins = {}
+      @myself
 
     commands: ->
       ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite', 'servoWrite', 'firmwareName']
@@ -48,7 +49,7 @@ namespace "Cylon.Adaptor", ->
       @connection.emit 'connect'
       (callback)(null)
 
-      @proxyMethods @commands, @board, Raspi
+      @proxyMethods @commands, @board, @myself
 
     disconnect: ->
       Logger.debug "Disconnecting all pins..."
