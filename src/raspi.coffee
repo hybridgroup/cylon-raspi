@@ -46,8 +46,10 @@ namespace "Cylon.Adaptor", ->
 
     connect: (callback) ->
       Logger.debug "Connecting to board '#{@name}'..."
-      @proxyMethods @commands, @board, Raspi
       @connection.emit 'connect'
+      (callback)(null)
+
+      @proxyMethods @commands, @board, Raspi
 
     disconnect: ->
       Logger.debug "Disconnecting from board '#{@name}'..."

@@ -64,8 +64,9 @@
 
       Raspi.prototype.connect = function(callback) {
         Logger.debug("Connecting to board '" + this.name + "'...");
-        this.proxyMethods(this.commands, this.board, Raspi);
-        return this.connection.emit('connect');
+        this.connection.emit('connect');
+        callback(null);
+        return this.proxyMethods(this.commands, this.board, Raspi);
       };
 
       Raspi.prototype.disconnect = function() {
