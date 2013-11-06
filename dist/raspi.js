@@ -146,14 +146,17 @@
       };
 
       Raspi.prototype._disconnectPins = function() {
-        var pin, _i, _len, _ref, _results;
+        var key, pin, _ref, _results;
+        console.log("DISCONNECTING PINS, pins => ");
+        console.log(this.pins);
         _ref = this.pins;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          pin = _ref[_i];
-          if (pin != null) {
-            _results.push(pin.close());
-          }
+        for (key in _ref) {
+          pin = _ref[key];
+          console.log("The pin being closed is:");
+          console.log(pin);
+          pin.close();
+          _results.push(console.log("Pin " + pin.pinNum + " has been closed."));
         }
         return _results;
       };

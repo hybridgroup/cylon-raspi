@@ -101,4 +101,11 @@ namespace "Cylon.Adaptor", ->
        pin
 
     _disconnectPins: ->
-      pin.close() for pin in @pins when pin?
+      console.log("DISCONNECTING PINS, pins => ")
+      console.log(@pins)
+      for key, pin of @pins
+        console.log("The pin being closed is:")
+        console.log(pin)
+        pin.close()
+        console.log("Pin #{pin.pinNum} has been closed.")
+
