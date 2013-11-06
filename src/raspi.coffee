@@ -59,6 +59,8 @@ namespace "Cylon.Adaptor", ->
       'Raspberry Pi'
 
     digitalRead: (pinNum, callback) ->
+
+    digitalWrite: (pinNum, value) ->
       pin = @pins[@_translatePin(pinNum)]
       if (pin?)
         pin.digitalWrite(value)
@@ -68,16 +70,6 @@ namespace "Cylon.Adaptor", ->
         pin.on('connect', (data) => pin.digitalWrite(value))
         pin.connect()
       value
-
-    digitalWrite: (pin, value) ->
-      pin = @_raspiPin(pin, 'w')
-      pin.on('digitalWrite', (val) =>
-        @connection.emit('digitalWrite', val)
-      )
-      pin.on('connect', (data) =>
-        pin.digitalWrite(value)
-      )
-      pin.connect()
 
     pwmWrite: (pin, value) ->
 

@@ -78,7 +78,9 @@
         return 'Raspberry Pi';
       };
 
-      Raspi.prototype.digitalRead = function(pinNum, callback) {
+      Raspi.prototype.digitalRead = function(pinNum, callback) {};
+
+      Raspi.prototype.digitalWrite = function(pinNum, value) {
         var pin,
           _this = this;
         pin = this.pins[this._translatePin(pinNum)];
@@ -95,18 +97,6 @@
           pin.connect();
         }
         return value;
-      };
-
-      Raspi.prototype.digitalWrite = function(pin, value) {
-        var _this = this;
-        pin = this._raspiPin(pin, 'w');
-        pin.on('digitalWrite', function(val) {
-          return _this.connection.emit('digitalWrite', val);
-        });
-        pin.on('connect', function(data) {
-          return pin.digitalWrite(value);
-        });
-        return pin.connect();
       };
 
       Raspi.prototype.pwmWrite = function(pin, value) {};
