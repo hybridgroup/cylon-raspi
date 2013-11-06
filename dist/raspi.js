@@ -87,7 +87,7 @@
         } else {
           pin = this._setupDigitalPin(pin, pinNum, 'r', 'digitalRead');
           pin.on('connect', function(data) {
-            return pin.digitalRead();
+            return pin.digitalRead(0.1);
           });
           pin.connect();
         }
