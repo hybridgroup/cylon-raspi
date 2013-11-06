@@ -58,7 +58,16 @@ namespace "Cylon.Adaptor", ->
     firmwareName: ->
       'Raspberry Pi'
 
-    digitalRead: (pin, callback) ->
+    digitalRead: (pinNum, callback) ->
+      pin = @pins[@_translatePin(pinNum)]
+      if (pin?)
+        pin.digitalWrite(value)
+      else
+        pin = @_raspiPin(pinNum, 'w')
+        pin.on('digitalWrite', (val) => @connection.emit('digitalWrite', val))
+        pin.on('connect', (data) => pin.digitalWrite(value))
+        pin.connect()
+      value
 
     digitalWrite: (pin, value) ->
       pin = @_raspiPin(pin, 'w')
@@ -74,10 +83,10 @@ namespace "Cylon.Adaptor", ->
 
     servoWrite: (pin, value) ->
 
-    _raspiPin: (pin, mode) ->
-      pin = @_translatePin(pin)
-      @pins[pin] = new Cylon.IO.DigitalPin(pin: pin, mode: mode) if (@pins[pin]?)
-      @pins[pin]
+    _raspiPin: (pinNum, mode) ->
+      gpioPinNum = @_translatePin(pinNum)
+      @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) if (@pins[gpioPinNum]?)
+      @pins[gpioPinNum]
 
-    _translatePin: (pin) ->
-      PINS[pin]
+    _translatePin: (pinNum) ->
+      PINS[pinNum]
