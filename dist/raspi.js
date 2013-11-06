@@ -59,7 +59,7 @@
       }
 
       Raspi.prototype.commands = function() {
-        return ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'analogRead', 'analogWrite', 'pwmWrite', 'servoWrite', 'firmwareName'];
+        return ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite', 'servoWrite', 'firmwareName'];
       };
 
       Raspi.prototype.connect = function(callback) {
@@ -78,19 +78,30 @@
         return 'Raspberry Pi';
       };
 
-      Raspi.prototype.digitalRead = function(pinNum, callback) {};
+      Raspi.prototype.digitalRead = function(pinNum, callback) {
+        var pin,
+          _this = this;
+        pin = this.pins[this._translatePin(pinNum)];
+        if ((pin != null) && (pin.mode === 'r')) {
+          pin.digitalRead(value);
+        } else {
+          pin = this._setupDigitalPin(pin, pinNum, 'r', 'digitalRead');
+          pin.on('connect', function(data) {
+            return pin.digitalRead();
+          });
+          pin.connect();
+        }
+        return true;
+      };
 
       Raspi.prototype.digitalWrite = function(pinNum, value) {
         var pin,
           _this = this;
         pin = this.pins[this._translatePin(pinNum)];
-        if ((pin != null)) {
+        if ((pin != null) && (pin.mode === 'w')) {
           pin.digitalWrite(value);
         } else {
-          pin = this._raspiPin(pinNum, 'w');
-          pin.on('digitalWrite', function(val) {
-            return _this.connection.emit('digitalWrite', val);
-          });
+          pin = this._setupDigitalPin(pin, pinNum, 'w', 'digitalWrite');
           pin.on('connect', function(data) {
             return pin.digitalWrite(value);
           });
@@ -106,7 +117,7 @@
       Raspi.prototype._raspiPin = function(pinNum, mode) {
         var gpioPinNum;
         gpioPinNum = this._translatePin(pinNum);
-        if (this.pins[gpioPinNum] == null) {
+        if ((this.pins[gpioPinNum] == null) && mode !== this.pins[gpioPinNum].mode) {
           this.pins[gpioPinNum] = new Cylon.IO.DigitalPin({
             pin: gpioPinNum,
             mode: mode
@@ -117,6 +128,18 @@
 
       Raspi.prototype._translatePin = function(pinNum) {
         return PINS[pinNum];
+      };
+
+      Raspi.prototype._setupDigitalPin = function(pin, pinNum, mode, eventName) {
+        var _this = this;
+        if ((pin != null)) {
+          pin.close();
+        }
+        pin = this._raspiPin(pinNum, 'w');
+        pin.on(eventName, function(val) {
+          return _this.connection.emit(eventName, val);
+        });
+        return pin;
       };
 
       return Raspi;

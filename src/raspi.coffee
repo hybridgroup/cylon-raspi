@@ -40,8 +40,7 @@ namespace "Cylon.Adaptor", ->
       @pins = {}
 
     commands: ->
-      ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'analogRead', 'analogWrite', 'pwmWrite', 'servoWrite',
-       'firmwareName']
+      ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite', 'servoWrite', 'firmwareName']
       #'sendI2CConfig', 'sendI2CWriteRequest', 'sendI2CReadRequest']
 
     connect: (callback) ->
@@ -59,16 +58,25 @@ namespace "Cylon.Adaptor", ->
       'Raspberry Pi'
 
     digitalRead: (pinNum, callback) ->
+      pin = @pins[@_translatePin(pinNum)]
+      if (pin?) and (pin.mode == 'r')
+        pin.digitalRead(value)
+      else
+        pin = @_setupDigitalPin(pin, pinNum, 'r', 'digitalRead')
+        pin.on('connect', (data) => pin.digitalRead())
+        pin.connect()
+
+      true
 
     digitalWrite: (pinNum, value) ->
       pin = @pins[@_translatePin(pinNum)]
-      if (pin?)
+      if (pin?) and (pin.mode == 'w')
         pin.digitalWrite(value)
       else
-        pin = @_raspiPin(pinNum, 'w')
-        pin.on('digitalWrite', (val) => @connection.emit('digitalWrite', val))
+        pin = @_setupDigitalPin(pin, pinNum, 'w', 'digitalWrite')
         pin.on('connect', (data) => pin.digitalWrite(value))
         pin.connect()
+
       value
 
     pwmWrite: (pin, value) ->
@@ -77,8 +85,14 @@ namespace "Cylon.Adaptor", ->
 
     _raspiPin: (pinNum, mode) ->
       gpioPinNum = @_translatePin(pinNum)
-      @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) if (not @pins[gpioPinNum]?)
+      @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) if (not @pins[gpioPinNum]?) and mode != @pins[gpioPinNum].mode
       @pins[gpioPinNum]
 
     _translatePin: (pinNum) ->
       PINS[pinNum]
+
+    _setupDigitalPin: (pin, pinNum, mode, eventName) ->
+       pin.close() if (pin?)
+       pin = @_raspiPin(pinNum, 'w')
+       pin.on(eventName, (val) => @connection.emit(eventName, val))
+       pin
