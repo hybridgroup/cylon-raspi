@@ -106,6 +106,6 @@ namespace "Cylon.Adaptor", ->
       for key, pin of @pins
         console.log("The pin being closed is:")
         console.log(pin)
-        pin.close()
+        pin.closeSync()
         console.log("Pin #{pin.pinNum} has been closed.")
 

@@ -155,7 +155,7 @@
           pin = _ref[key];
           console.log("The pin being closed is:");
           console.log(pin);
-          pin.close();
+          pin.closeSync();
           _results.push(console.log("Pin " + pin.pinNum + " has been closed."));
         }
         return _results;
