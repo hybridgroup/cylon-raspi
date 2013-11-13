@@ -8,6 +8,7 @@
 
 'use strict';
 
+require "./pwm-pin"
 namespace = require 'node-namespace'
 
 namespace "Cylon.Adaptor", ->
@@ -66,7 +67,7 @@ namespace "Cylon.Adaptor", ->
         pin.digitalRead(value)
       else
         pin = @_setupDigitalPin(pin, pinNum, 'r', 'digitalRead')
-        pin.on('connect', (data) => pin.digitalRead(0.1))
+        pin.on('connect', (data) => pin.digitalRead(10))
         pin.connect()
 
       true
