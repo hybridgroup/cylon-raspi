@@ -1,6 +1,12 @@
 'use strict';
 
-cylonRaspi = source("cylon-raspi")
+# Needed so that tests don't implode
+namespace = require 'node-namespace'
+namespace 'Cylon', ->
+  class @Basestar
+    constructor: ->
+
+raspi = source("cylon-raspi")
 
 describe "basic tests", ->
   it "standard async test", (done) ->
@@ -29,8 +35,11 @@ describe "basic tests", ->
     # hard equal
     data[0].should.be.equal obj
 
-  # Now on to a `real` test
-  it "cylon-raspi should be awesome", ->
-    cylonRaspi.should.have.keys 'awesome'
-    cylonRaspi.awesome.should.be.a 'function'
-    cylonRaspi.awesome().should.be.equal 'awesome'
+  it "can register", ->
+    raspi.register.should.be.a 'function'
+
+  it "can create an adaptor", ->
+    raspi.adaptor.should.be.a 'function'
+
+  it "can create a driver", ->
+    raspi.driver.should.be.a 'function'

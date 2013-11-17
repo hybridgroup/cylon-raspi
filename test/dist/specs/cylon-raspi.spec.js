@@ -1,8 +1,19 @@
 (function() {
   'use strict';
-  var cylonRaspi;
+  var namespace, raspi;
 
-  cylonRaspi = source("cylon-raspi");
+  namespace = require('node-namespace');
+
+  namespace('Cylon', function() {
+    return this.Basestar = (function() {
+      function Basestar() {}
+
+      return Basestar;
+
+    })();
+  });
+
+  raspi = source("cylon-raspi");
 
   describe("basic tests", function() {
     it("standard async test", function(done) {
@@ -34,10 +45,14 @@
       data[0].should.be.eql(obj);
       return data[0].should.be.equal(obj);
     });
-    return it("cylon-raspi should be awesome", function() {
-      cylonRaspi.should.have.keys('awesome');
-      cylonRaspi.awesome.should.be.a('function');
-      return cylonRaspi.awesome().should.be.equal('awesome');
+    it("can register", function() {
+      return raspi.register.should.be.a('function');
+    });
+    it("can create an adaptor", function() {
+      return raspi.adaptor.should.be.a('function');
+    });
+    return it("can create a driver", function() {
+      return raspi.driver.should.be.a('function');
     });
   });
 
