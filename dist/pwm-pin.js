@@ -56,7 +56,7 @@
       PwmPin.prototype.pwmWrite = function(value) {
         var _this = this;
         this.value = value;
-        this.pbVal = this._piBlasterValue(value);
+        this.pbVal = this._piBlasterVal(value);
         return FS.writeFile(BLASTER_PATH, this.pb_val, function(err) {
           if (err) {
             return _this.emit('error', "Error occurred while writing value " + _this.pbVal + " to pin " + _this.pinNum);

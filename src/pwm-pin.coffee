@@ -43,7 +43,7 @@ namespace 'Cylon.IO', ->
     # Param value should be integer from 0 to 255
     pwmWrite: (value) ->
       @value = value
-      @pbVal = @_piBlasterValue(value)
+      @pbVal = @_piBlasterVal(value)
 
       FS.writeFile(BLASTER_PATH, @pb_val, (err) =>
         if (err)
