@@ -39,6 +39,7 @@ namespace "Cylon.Adaptor", ->
       @name = opts.name
       @board = ""
       @pins = {}
+      @pwmPins = {}
       @myself
 
     commands: ->
@@ -84,6 +85,8 @@ namespace "Cylon.Adaptor", ->
       value
 
     pwmWrite: (pin, value) ->
+      pin = @_pwmPin(pin)
+      pin.pwmWrite(value)
 
     servoWrite: (pin, value) ->
 
@@ -91,6 +94,11 @@ namespace "Cylon.Adaptor", ->
       gpioPinNum = @_translatePin(pinNum)
       @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) unless @pins[gpioPinNum]?
       @pins[gpioPinNum]
+
+    _pwmPin: (pinNum) ->
+      gpioPinNum = @_translatePin(pinNum)
+      @pwmPins[gpioPinNum] = new Cylon.IO.PwmPin(pin: gpioPinNum) unless @pwmPins[gpioPinNum]?
+      @pwmPins[gpioPinNum]
 
     _translatePin: (pinNum) ->
       PINS[pinNum]
