@@ -58,6 +58,7 @@
         this.name = opts.name;
         this.board = "";
         this.pins = {};
+        this.pwmPins = {};
         this.myself;
       }
 
@@ -115,7 +116,10 @@
         return value;
       };
 
-      Raspi.prototype.pwmWrite = function(pin, value) {};
+      Raspi.prototype.pwmWrite = function(pin, value) {
+        pin = this._pwmPin(pin);
+        return pin.pwmWrite(value);
+      };
 
       Raspi.prototype.servoWrite = function(pin, value) {};
 
@@ -129,6 +133,17 @@
           });
         }
         return this.pins[gpioPinNum];
+      };
+
+      Raspi.prototype._pwmPin = function(pinNum) {
+        var gpioPinNum;
+        gpioPinNum = this._translatePin(pinNum);
+        if (this.pwmPins[gpioPinNum] == null) {
+          this.pwmPins[gpioPinNum] = new Cylon.IO.PwmPin({
+            pin: gpioPinNum
+          });
+        }
+        return this.pwmPins[gpioPinNum];
       };
 
       Raspi.prototype._translatePin = function(pinNum) {
