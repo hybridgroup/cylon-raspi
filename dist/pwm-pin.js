@@ -37,18 +37,20 @@
         return FS.writeFile(BLASTER_PATH, "" + this.pinNum + "=" + 0. + "\n", function(err) {
           if (err) {
             return _this.emit('error', 'Error while writing to PI-Blaster file');
+          } else {
+            return _this.emit('connect');
           }
         });
       };
 
-      PwmPin.prototype.release = function() {
+      PwmPin.prototype.close = function() {
         var _this = this;
         return FS.writeFile(BLASTER_PATH, "release " + this.pinNum, function(err) {
           return _this._releaseCallback(err);
         });
       };
 
-      PwmPin.prototype.relaseSync = function() {
+      PwmPin.prototype.closeSync = function() {
         FS.writeFileSync(BLASTER_PATH, "release " + this.pinNum);
         return this._releaseCallback(false);
       };
@@ -57,7 +59,7 @@
         var _this = this;
         this.value = value;
         this.pbVal = this._piBlasterVal(value);
-        return FS.writeFile(BLASTER_PATH, this.pb_val, function(err) {
+        return FS.writeFile(BLASTER_PATH, "" + this.pinNum + "=" + this.pb_val, function(err) {
           if (err) {
             return _this.emit('error', "Error occurred while writing value " + _this.pbVal + " to pin " + _this.pinNum);
           } else {
@@ -66,7 +68,7 @@
         });
       };
 
-      PwmPin.prototype._releaseCallback = function() {
+      PwmPin.prototype._releaseCallback = function(err) {
         if (err) {
           return this.emit('error', 'Error while releasing pwm pin');
         } else {

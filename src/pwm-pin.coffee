@@ -28,14 +28,16 @@ namespace 'Cylon.IO', ->
       FS.writeFile(BLASTER_PATH, "#{ @pinNum }=#{ 0 }\n", (err) =>
         if(err)
           @emit('error', 'Error while writing to PI-Blaster file')
+        else
+          @emit('connect')
       )
 
-    release: ->
+    close: ->
       FS.writeFile(BLASTER_PATH, "release #{ @pinNum }", (err) =>
         @_releaseCallback(err)
       )
 
-    relaseSync: ->
+    closeSync: ->
       FS.writeFileSync(BLASTER_PATH, "release #{ @pinNum }")
       @_releaseCallback(false)
 
@@ -45,14 +47,14 @@ namespace 'Cylon.IO', ->
       @value = value
       @pbVal = @_piBlasterVal(value)
 
-      FS.writeFile(BLASTER_PATH, @pb_val, (err) =>
+      FS.writeFile(BLASTER_PATH, "#{ @pinNum }=#{ @pb_val }", (err) =>
         if (err)
           @emit('error', "Error occurred while writing value #{ @pbVal } to pin #{ @pinNum }")
         else
           @emit('pwmWrite', value)
       )
 
-    _releaseCallback: () ->
+    _releaseCallback: (err) ->
       if(err)
         @emit('error', 'Error while releasing pwm pin')
       else

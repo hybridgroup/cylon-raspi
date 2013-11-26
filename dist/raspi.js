@@ -116,14 +116,25 @@
         return value;
       };
 
-      Raspi.prototype.pwmWrite = function(pin, value) {
-        pin = this._pwmPin(pin);
-        return pin.pwmWrite(value);
+      Raspi.prototype.pwmWrite = function(pinNum, value) {
+        var pin,
+          _this = this;
+        pin = this.pwmPins[this._translatePin(pinNum)];
+        if (pin != null) {
+          pin.pwmWrite(value);
+        } else {
+          pin = this._pwmPin(pin);
+          pin.on('connect', function() {
+            return pin.pwmWrite(value);
+          });
+          pin.connect();
+        }
+        return value;
       };
 
       Raspi.prototype.servoWrite = function(pin, value) {};
 
-      Raspi.prototype._raspiPin = function(pinNum, mode) {
+      Raspi.prototype._digitalPin = function(pinNum, mode) {
         var gpioPinNum;
         gpioPinNum = this._translatePin(pinNum);
         if (this.pins[gpioPinNum] == null) {
@@ -155,7 +166,7 @@
         if ((pin != null)) {
           pin.close();
         }
-        pin = this._raspiPin(pinNum, 'w');
+        pin = this._digitalPin(pinNum, 'w');
         pin.on(eventName, function(val) {
           return _this.connection.emit(eventName, val);
         });
@@ -163,11 +174,16 @@
       };
 
       Raspi.prototype._disconnectPins = function() {
-        var key, pin, _ref, _results;
+        var key, pin, _ref, _ref1, _results;
         _ref = this.pins;
-        _results = [];
         for (key in _ref) {
           pin = _ref[key];
+          pin.closeSync();
+        }
+        _ref1 = this.pwmPins;
+        _results = [];
+        for (key in _ref1) {
+          pin = _ref1[key];
           _results.push(pin.closeSync());
         }
         return _results;
