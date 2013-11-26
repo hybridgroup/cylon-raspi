@@ -89,7 +89,7 @@ namespace "Cylon.Adaptor", ->
       if pin?
         pin.pwmWrite(value)
       else
-        pin = @_pwmPin(pin)
+        pin = @_pwmPin(pinNum)
         pin.on('connect', () => pin.pwmWrite(value))
         pin.connect()
 

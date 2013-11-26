@@ -33,12 +33,12 @@ namespace 'Cylon.IO', ->
       )
 
     close: ->
-      FS.appendFile(BLASTER_PATH, "release #{ @pinNum }", (err) =>
+      FS.appendFile(BLASTER_PATH, "release #{ @pinNum }\n", (err) =>
         @_releaseCallback(err)
       )
 
     closeSync: ->
-      FS.appendFileSync(BLASTER_PATH, "release #{ @pinNum }")
+      FS.appendFileSync(BLASTER_PATH, "release #{ @pinNum }\n")
       @_releaseCallback(false)
 
     # Writes PWM value to the specified pin
@@ -47,7 +47,7 @@ namespace 'Cylon.IO', ->
       @value = value
       @pbVal = @_piBlasterVal(value)
 
-      FS.appendFile(BLASTER_PATH, "#{ @pinNum }=#{ @pb_val }", (err) =>
+      FS.appendFile(BLASTER_PATH, "#{ @pinNum }=#{ @pbVal }\n", (err) =>
         if (err)
           @emit('error', "Error occurred while writing value #{ @pbVal } to pin #{ @pinNum }")
         else
@@ -62,6 +62,6 @@ namespace 'Cylon.IO', ->
 
     _piBlasterVal: (value) ->
       calc = Math.round(((1.0/255.0) * value) * 100) / 100
-      calc = (calc > 1) ? 1 : calc
-      calc = (calc < 0) ? 0 : calc
+      calc = if (calc > 1) then 1 else calc
+      calc = if (calc < 0) then 0 else calc
       calc

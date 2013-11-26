@@ -123,7 +123,7 @@
         if (pin != null) {
           pin.pwmWrite(value);
         } else {
-          pin = this._pwmPin(pin);
+          pin = this._pwmPin(pinNum);
           pin.on('connect', function() {
             return pin.pwmWrite(value);
           });

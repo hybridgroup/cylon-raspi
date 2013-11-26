@@ -45,13 +45,13 @@
 
       PwmPin.prototype.close = function() {
         var _this = this;
-        return FS.appendFile(BLASTER_PATH, "release " + this.pinNum, function(err) {
+        return FS.appendFile(BLASTER_PATH, "release " + this.pinNum + "\n", function(err) {
           return _this._releaseCallback(err);
         });
       };
 
       PwmPin.prototype.closeSync = function() {
-        FS.appendFileSync(BLASTER_PATH, "release " + this.pinNum);
+        FS.appendFileSync(BLASTER_PATH, "release " + this.pinNum + "\n");
         return this._releaseCallback(false);
       };
 
@@ -59,7 +59,7 @@
         var _this = this;
         this.value = value;
         this.pbVal = this._piBlasterVal(value);
-        return FS.appendFile(BLASTER_PATH, "" + this.pinNum + "=" + this.pb_val, function(err) {
+        return FS.appendFile(BLASTER_PATH, "" + this.pinNum + "=" + this.pbVal + "\n", function(err) {
           if (err) {
             return _this.emit('error', "Error occurred while writing value " + _this.pbVal + " to pin " + _this.pinNum);
           } else {
@@ -77,14 +77,10 @@
       };
 
       PwmPin.prototype._piBlasterVal = function(value) {
-        var calc, _ref, _ref1;
+        var calc;
         calc = Math.round(((1.0 / 255.0) * value) * 100) / 100;
-        calc = (_ref = calc > 1) != null ? _ref : {
-          1: calc
-        };
-        calc = (_ref1 = calc < 0) != null ? _ref1 : {
-          0: calc
-        };
+        calc = calc > 1 ? 1 : calc;
+        calc = calc < 0 ? 0 : calc;
         return calc;
       };
 
