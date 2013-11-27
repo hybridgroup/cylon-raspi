@@ -93,7 +93,7 @@
 
       PwmPin.prototype._servoVal = function(angle) {
         var calc;
-        calc = Math.round(((value * 0.25) / 180) * 100) / 100;
+        calc = Math.round(((angle * 0.25) / 180) * 100) / 100;
         calc = calc > 1 ? 0.25 : calc;
         calc = calc < 0 ? 0 : calc;
         return calc;
