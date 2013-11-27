@@ -62,50 +62,37 @@ namespace "Cylon.Adaptor", ->
     firmwareName: ->
       'Raspberry Pi'
 
-    digitalRead: (pinNum, callback) ->
+    digitalRead: (pinNum, drCb) ->
       pin = @pins[@_translatePin(pinNum)]
-      if (pin?) and (pin.mode == 'r')
-        pin.digitalRead(value)
-      else
-        pin = @_setupDigitalPin(pin, pinNum, 'r', 'digitalRead')
-        pin.on('connect', (data) => pin.digitalRead(10))
+      unless (pin?)
+        pin.on('digitalRead', (val) =>
+          @connection.emit('digitalRead', val)
+          drCb(val)
+        )
+        pin.on('connect', (data) => pin.digitalRead(20))
         pin.connect()
 
       true
 
     digitalWrite: (pinNum, value) ->
       pin = @pins[@_translatePin(pinNum)]
-      if (pin?) and (pin.mode == 'w')
+      if (pin?)
         pin.digitalWrite(value)
       else
-        pin = @_setupDigitalPin(pin, pinNum, 'w', 'digitalWrite')
+        pin = @_digitalPin(pinNum, 'w')
+        pin.on('digitalWrite', (val) => @connection.emit('digitalWrite', val))
         pin.on('connect', (data) => pin.digitalWrite(value))
         pin.connect()
 
       value
 
     pwmWrite: (pinNum, value) ->
-      #if pin?
-      #pin.pwmWrite(value)
-      #else
-      #pin = @_pwmPin(pinNum)
-      #pin.on('connect', () => pin.pwmWrite(value))
-      #pin.connect()
-
       pin = @_pwmPin(pinNum)
       pin.pwmWrite(value)
 
       value
 
     servoWrite: (pinNum, angle) ->
-      #pin = @pwmPins[@_translatePin(pinNum)]
-      #if pin?
-      #pin.servoWrite(value)
-      #else
-      #pin = @_pwmPin(pinNum)
-      #pin.on('connect', () => pin.servoWrite(value))
-      #pin.connect()
-
       pin = @_pwmPin(pinNum)
       pin.servoWrite(angle)
 
@@ -120,12 +107,6 @@ namespace "Cylon.Adaptor", ->
       gpioPinNum = @_translatePin(pinNum)
       @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) unless @pins[gpioPinNum]?
       @pins[gpioPinNum]
-
-    _setupDigitalPin: (pin, pinNum, mode, eventName) ->
-       pin.close() if (pin?)
-       pin = @_digitalPin(pinNum, 'w')
-       pin.on(eventName, (val) => @connection.emit(eventName, val))
-       pin
 
     _translatePin: (pinNum) ->
       PINS[pinNum]
