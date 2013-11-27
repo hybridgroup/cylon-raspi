@@ -62,18 +62,13 @@ namespace "Cylon.Adaptor", ->
     firmwareName: ->
       'Raspberry Pi'
 
-    digitalRead: (pinNum, drCb) ->
+    digitalRead: (pinNum, drCallback) ->
       pin = @pins[@_translatePin(pinNum)]
-      console.log("This is pin ====>")
-      console.log(pin)
       unless (pin?)
         pin = @_digitalPin(pinNum, 'r')
-        console.log("NEW PIN =====>")
-        console.log(pin)
         pin.on('digitalRead', (val) =>
           @connection.emit('digitalRead', val)
-          console.log("DGITAL READ TRIGGERED")
-          (drCb)(val)
+          (drCallback)(val)
         )
         pin.on('connect', (data) => pin.digitalRead(20))
         pin.connect()
