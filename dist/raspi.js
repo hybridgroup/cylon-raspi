@@ -132,7 +132,11 @@
         return value;
       };
 
-      Raspi.prototype.servoWrite = function(pin, value) {};
+      Raspi.prototype.servoWrite = function(pin, angle) {
+        var value;
+        value = (255 / 180) * angle;
+        return pwmWrite(pinNum, value);
+      };
 
       Raspi.prototype._digitalPin = function(pinNum, mode) {
         var gpioPinNum;
