@@ -88,7 +88,12 @@
         var pin,
           _this = this;
         pin = this.pins[this._translatePin(pinNum)];
+        console.log("This is pin ====>");
+        console.log(pin);
         if (!(pin != null)) {
+          pin = this._digitalPin(pinNum, 'r');
+          console.log("NEW PIN =====>");
+          console.log(pin);
           pin.on('digitalRead', function(val) {
             _this.connection.emit('digitalRead', val);
             return drCb(val);

@@ -64,7 +64,12 @@ namespace "Cylon.Adaptor", ->
 
     digitalRead: (pinNum, drCb) ->
       pin = @pins[@_translatePin(pinNum)]
+      console.log("This is pin ====>")
+      console.log(pin)
       unless (pin?)
+        pin = @_digitalPin(pinNum, 'r')
+        console.log("NEW PIN =====>")
+        console.log(pin)
         pin.on('digitalRead', (val) =>
           @connection.emit('digitalRead', val)
           drCb(val)
