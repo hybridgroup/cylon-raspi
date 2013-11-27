@@ -135,7 +135,7 @@
       Raspi.prototype.servoWrite = function(pinNum, angle) {
         var value;
         value = (255 / 180) * angle;
-        return pwmWrite(pinNum, value);
+        return this.pwmWrite(pinNum, value);
       };
 
       Raspi.prototype._digitalPin = function(pinNum, mode) {

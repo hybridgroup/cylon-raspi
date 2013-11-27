@@ -97,7 +97,7 @@ namespace "Cylon.Adaptor", ->
 
     servoWrite: (pinNum, angle) ->
       value = (255/180) * angle
-      pwmWrite(pinNum, value)
+      @pwmWrite(pinNum, value)
 
     _digitalPin: (pinNum, mode) ->
       gpioPinNum = @_translatePin(pinNum)
