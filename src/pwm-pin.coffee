@@ -70,7 +70,7 @@ namespace 'Cylon.IO', ->
       calc
 
     _servoVal: (angle) ->
-      calc = Math.round(((angle*0.25) / 180) * 100) / 100
-      calc = if (calc > 1) then 0.25 else calc
-      calc = if (calc < 0.01) then 0.01 else calc
+      calc = Math.round((((angle*0.20) / 180) + 0.05) * 100) / 100
+      calc = if (calc > 1) then 0.249 else calc
+      calc = if (calc < 0.05) then 0.05 else calc
       calc
