@@ -55,7 +55,7 @@ namespace 'Cylon.IO', ->
       )
 
     servoWrite: (angle) ->
-      @pwmWrite(value, true)
+      @pwmWrite(angle, true)
 
     _releaseCallback: (err) ->
       if(err)

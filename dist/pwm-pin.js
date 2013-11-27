@@ -72,7 +72,7 @@
       };
 
       PwmPin.prototype.servoWrite = function(angle) {
-        return this.pwmWrite(value, true);
+        return this.pwmWrite(angle, true);
       };
 
       PwmPin.prototype._releaseCallback = function(err) {
