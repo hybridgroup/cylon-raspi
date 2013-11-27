@@ -127,7 +127,7 @@
         var pin;
         pin = this._pwmPin(pinNum);
         pin.servoWrite(angle);
-        return value;
+        return angle;
       };
 
       Raspi.prototype._pwmPin = function(pinNum) {

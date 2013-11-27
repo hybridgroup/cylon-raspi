@@ -109,7 +109,7 @@ namespace "Cylon.Adaptor", ->
       pin = @_pwmPin(pinNum)
       pin.servoWrite(angle)
 
-      value
+      angle
 
     _pwmPin: (pinNum) ->
       gpioPinNum = @_translatePin(pinNum)
