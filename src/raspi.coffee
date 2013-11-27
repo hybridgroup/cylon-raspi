@@ -72,7 +72,8 @@ namespace "Cylon.Adaptor", ->
         console.log(pin)
         pin.on('digitalRead', (val) =>
           @connection.emit('digitalRead', val)
-          drCb(val)
+          console.log("DGITAL READ TRIGGERED")
+          (drCb)(val)
         )
         pin.on('connect', (data) => pin.digitalRead(20))
         pin.connect()

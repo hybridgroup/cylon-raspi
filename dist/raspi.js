@@ -96,6 +96,7 @@
           console.log(pin);
           pin.on('digitalRead', function(val) {
             _this.connection.emit('digitalRead', val);
+            console.log("DGITAL READ TRIGGERED");
             return drCb(val);
           });
           pin.on('connect', function(data) {
