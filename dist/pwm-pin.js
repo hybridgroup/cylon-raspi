@@ -34,30 +34,32 @@
 
       PwmPin.prototype.connect = function() {
         var _this = this;
-        return FS.writeFile(BLASTER_PATH, "" + this.pinNum + "=" + 0. + "\n", function(err) {
+        return FS.appendFile(BLASTER_PATH, "" + this.pinNum + "=" + 0. + "\n", function(err) {
           if (err) {
             return _this.emit('error', 'Error while writing to PI-Blaster file');
+          } else {
+            return _this.emit('connect');
           }
         });
       };
 
-      PwmPin.prototype.release = function() {
+      PwmPin.prototype.close = function() {
         var _this = this;
-        return FS.writeFile(BLASTER_PATH, "release " + this.pinNum, function(err) {
+        return FS.appendFile(BLASTER_PATH, "release " + this.pinNum + "\n", function(err) {
           return _this._releaseCallback(err);
         });
       };
 
-      PwmPin.prototype.relaseSync = function() {
-        FS.writeFileSync(BLASTER_PATH, "release " + this.pinNum);
+      PwmPin.prototype.closeSync = function() {
+        FS.appendFileSync(BLASTER_PATH, "release " + this.pinNum + "\n");
         return this._releaseCallback(false);
       };
 
       PwmPin.prototype.pwmWrite = function(value) {
         var _this = this;
         this.value = value;
-        this.pbVal = this._piBlasterValue(value);
-        return FS.writeFile(BLASTER_PATH, this.pb_val, function(err) {
+        this.pbVal = this._piBlasterVal(value);
+        return FS.appendFile(BLASTER_PATH, "" + this.pinNum + "=" + this.pbVal + "\n", function(err) {
           if (err) {
             return _this.emit('error', "Error occurred while writing value " + _this.pbVal + " to pin " + _this.pinNum);
           } else {
@@ -66,7 +68,7 @@
         });
       };
 
-      PwmPin.prototype._releaseCallback = function() {
+      PwmPin.prototype._releaseCallback = function(err) {
         if (err) {
           return this.emit('error', 'Error while releasing pwm pin');
         } else {
@@ -75,14 +77,10 @@
       };
 
       PwmPin.prototype._piBlasterVal = function(value) {
-        var calc, _ref, _ref1;
+        var calc;
         calc = Math.round(((1.0 / 255.0) * value) * 100) / 100;
-        calc = (_ref = calc > 1) != null ? _ref : {
-          1: calc
-        };
-        calc = (_ref1 = calc < 0) != null ? _ref1 : {
-          0: calc
-        };
+        calc = calc > 1 ? 1 : calc;
+        calc = calc < 0 ? 0 : calc;
         return calc;
       };
 

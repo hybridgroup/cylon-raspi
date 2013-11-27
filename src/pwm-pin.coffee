@@ -25,34 +25,36 @@ namespace 'Cylon.IO', ->
       @ready = false
 
     connect: () ->
-      FS.writeFile(BLASTER_PATH, "#{ @pinNum }=#{ 0 }\n", (err) =>
+      FS.appendFile(BLASTER_PATH, "#{ @pinNum }=#{ 0 }\n", (err) =>
         if(err)
           @emit('error', 'Error while writing to PI-Blaster file')
+        else
+          @emit('connect')
       )
 
-    release: ->
-      FS.writeFile(BLASTER_PATH, "release #{ @pinNum }", (err) =>
+    close: ->
+      FS.appendFile(BLASTER_PATH, "release #{ @pinNum }\n", (err) =>
         @_releaseCallback(err)
       )
 
-    relaseSync: ->
-      FS.writeFileSync(BLASTER_PATH, "release #{ @pinNum }")
+    closeSync: ->
+      FS.appendFileSync(BLASTER_PATH, "release #{ @pinNum }\n")
       @_releaseCallback(false)
 
     # Writes PWM value to the specified pin
     # Param value should be integer from 0 to 255
     pwmWrite: (value) ->
       @value = value
-      @pbVal = @_piBlasterValue(value)
+      @pbVal = @_piBlasterVal(value)
 
-      FS.writeFile(BLASTER_PATH, @pb_val, (err) =>
+      FS.appendFile(BLASTER_PATH, "#{ @pinNum }=#{ @pbVal }\n", (err) =>
         if (err)
           @emit('error', "Error occurred while writing value #{ @pbVal } to pin #{ @pinNum }")
         else
           @emit('pwmWrite', value)
       )
 
-    _releaseCallback: () ->
+    _releaseCallback: (err) ->
       if(err)
         @emit('error', 'Error while releasing pwm pin')
       else
@@ -60,6 +62,6 @@ namespace 'Cylon.IO', ->
 
     _piBlasterVal: (value) ->
       calc = Math.round(((1.0/255.0) * value) * 100) / 100
-      calc = (calc > 1) ? 1 : calc
-      calc = (calc < 0) ? 0 : calc
+      calc = if (calc > 1) then 1 else calc
+      calc = if (calc < 0) then 0 else calc
       calc

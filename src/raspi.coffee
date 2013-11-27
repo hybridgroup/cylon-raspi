@@ -39,6 +39,7 @@ namespace "Cylon.Adaptor", ->
       @name = opts.name
       @board = ""
       @pins = {}
+      @pwmPins = {}
       @myself
 
     commands: ->
@@ -83,24 +84,42 @@ namespace "Cylon.Adaptor", ->
 
       value
 
-    pwmWrite: (pin, value) ->
+    pwmWrite: (pinNum, value) ->
+      pin = @pwmPins[@_translatePin(pinNum)]
+      if pin?
+        pin.pwmWrite(value)
+      else
+        pin = @_pwmPin(pinNum)
+        pin.on('connect', () => pin.pwmWrite(value))
+        pin.connect()
+
+      value
 
     servoWrite: (pin, value) ->
 
-    _raspiPin: (pinNum, mode) ->
+    _digitalPin: (pinNum, mode) ->
       gpioPinNum = @_translatePin(pinNum)
       @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) unless @pins[gpioPinNum]?
       @pins[gpioPinNum]
+
+    _pwmPin: (pinNum) ->
+      gpioPinNum = @_translatePin(pinNum)
+      @pwmPins[gpioPinNum] = new Cylon.IO.PwmPin(pin: gpioPinNum) unless @pwmPins[gpioPinNum]?
+      @pwmPins[gpioPinNum]
 
     _translatePin: (pinNum) ->
       PINS[pinNum]
 
     _setupDigitalPin: (pin, pinNum, mode, eventName) ->
        pin.close() if (pin?)
-       pin = @_raspiPin(pinNum, 'w')
+       pin = @_digitalPin(pinNum, 'w')
        pin.on(eventName, (val) => @connection.emit(eventName, val))
        pin
 
     _disconnectPins: ->
       for key, pin of @pins
         pin.closeSync()
+
+      for key, pin of @pwmPins
+        pin.closeSync()
+
