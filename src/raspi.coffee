@@ -95,7 +95,7 @@ namespace "Cylon.Adaptor", ->
 
       value
 
-    servoWrite: (pin, angle) ->
+    servoWrite: (pinNum, angle) ->
       value = (255/180) * angle
       pwmWrite(pinNum, value)
 
