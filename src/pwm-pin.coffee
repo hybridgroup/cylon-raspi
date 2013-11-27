@@ -43,9 +43,9 @@ namespace 'Cylon.IO', ->
 
     # Writes PWM value to the specified pin
     # Param value should be integer from 0 to 255
-    pwmWrite: (value) ->
+    pwmWrite: (value, servo = false) ->
       @value = value
-      @pbVal = @_piBlasterVal(value)
+      @pbVal = if (servo?) then @_servoVal(value) else @_pwmVal(value)
 
       FS.appendFile(BLASTER_PATH, "#{ @pinNum }=#{ @pbVal }\n", (err) =>
         if (err)
@@ -54,14 +54,23 @@ namespace 'Cylon.IO', ->
           @emit('pwmWrite', value)
       )
 
+    servoWrite: (angle) ->
+      @pwmWrite(value, true)
+
     _releaseCallback: (err) ->
       if(err)
         @emit('error', 'Error while releasing pwm pin')
       else
         @emit('release', @pinNum)
 
-    _piBlasterVal: (value) ->
+    _pwmVal: (value) ->
       calc = Math.round(((1.0/255.0) * value) * 100) / 100
       calc = if (calc > 1) then 1 else calc
+      calc = if (calc < 0) then 0 else calc
+      calc
+
+    _servoVal: (angle) ->
+      calc = Math.round(((value*0.25) / 180) * 100) / 100
+      calc = if (calc > 1) then 0.25 else calc
       calc = if (calc < 0) then 0 else calc
       calc

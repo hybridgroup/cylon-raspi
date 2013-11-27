@@ -117,25 +117,28 @@
       };
 
       Raspi.prototype.pwmWrite = function(pinNum, value) {
-        var pin,
-          _this = this;
-        pin = this.pwmPins[this._translatePin(pinNum)];
-        if (pin != null) {
-          pin.pwmWrite(value);
-        } else {
-          pin = this._pwmPin(pinNum);
-          pin.on('connect', function() {
-            return pin.pwmWrite(value);
-          });
-          pin.connect();
-        }
+        var pin;
+        pin = this._pwmPin(pinNum);
+        pin.pwmWrite(value);
         return value;
       };
 
       Raspi.prototype.servoWrite = function(pinNum, angle) {
-        var value;
-        value = (255 / 180) * angle;
-        return this.pwmWrite(pinNum, value);
+        var pin;
+        pin = this._pwmPin(pinNum);
+        pin.servoWrite(angle);
+        return value;
+      };
+
+      Raspi.prototype._pwmPin = function(pinNum) {
+        var gpioPinNum;
+        gpioPinNum = this._translatePin(pinNum);
+        if (this.pwmPins[gpioPinNum] == null) {
+          this.pwmPins[gpioPinNum] = new Cylon.IO.PwmPin({
+            pin: gpioPinNum
+          });
+        }
+        return this.pwmPins[gpioPinNum];
       };
 
       Raspi.prototype._digitalPin = function(pinNum, mode) {
@@ -150,21 +153,6 @@
         return this.pins[gpioPinNum];
       };
 
-      Raspi.prototype._pwmPin = function(pinNum) {
-        var gpioPinNum;
-        gpioPinNum = this._translatePin(pinNum);
-        if (this.pwmPins[gpioPinNum] == null) {
-          this.pwmPins[gpioPinNum] = new Cylon.IO.PwmPin({
-            pin: gpioPinNum
-          });
-        }
-        return this.pwmPins[gpioPinNum];
-      };
-
-      Raspi.prototype._translatePin = function(pinNum) {
-        return PINS[pinNum];
-      };
-
       Raspi.prototype._setupDigitalPin = function(pin, pinNum, mode, eventName) {
         var _this = this;
         if ((pin != null)) {
@@ -175,6 +163,10 @@
           return _this.connection.emit(eventName, val);
         });
         return pin;
+      };
+
+      Raspi.prototype._translatePin = function(pinNum) {
+        return PINS[pinNum];
       };
 
       Raspi.prototype._disconnectPins = function() {

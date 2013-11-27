@@ -55,10 +55,13 @@
         return this._releaseCallback(false);
       };
 
-      PwmPin.prototype.pwmWrite = function(value) {
+      PwmPin.prototype.pwmWrite = function(value, servo) {
         var _this = this;
+        if (servo == null) {
+          servo = false;
+        }
         this.value = value;
-        this.pbVal = this._piBlasterVal(value);
+        this.pbVal = (servo != null) ? this._servoVal(value) : this._pwmVal(value);
         return FS.appendFile(BLASTER_PATH, "" + this.pinNum + "=" + this.pbVal + "\n", function(err) {
           if (err) {
             return _this.emit('error', "Error occurred while writing value " + _this.pbVal + " to pin " + _this.pinNum);
@@ -66,6 +69,10 @@
             return _this.emit('pwmWrite', value);
           }
         });
+      };
+
+      PwmPin.prototype.servoWrite = function(angle) {
+        return this.pwmWrite(value, true);
       };
 
       PwmPin.prototype._releaseCallback = function(err) {
@@ -76,10 +83,18 @@
         }
       };
 
-      PwmPin.prototype._piBlasterVal = function(value) {
+      PwmPin.prototype._pwmVal = function(value) {
         var calc;
         calc = Math.round(((1.0 / 255.0) * value) * 100) / 100;
         calc = calc > 1 ? 1 : calc;
+        calc = calc < 0 ? 0 : calc;
+        return calc;
+      };
+
+      PwmPin.prototype._servoVal = function(angle) {
+        var calc;
+        calc = Math.round(((value * 0.25) / 180) * 100) / 100;
+        calc = calc > 1 ? 0.25 : calc;
         calc = calc < 0 ? 0 : calc;
         return calc;
       };

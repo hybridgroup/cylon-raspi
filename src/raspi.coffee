@@ -85,38 +85,50 @@ namespace "Cylon.Adaptor", ->
       value
 
     pwmWrite: (pinNum, value) ->
-      pin = @pwmPins[@_translatePin(pinNum)]
-      if pin?
-        pin.pwmWrite(value)
-      else
-        pin = @_pwmPin(pinNum)
-        pin.on('connect', () => pin.pwmWrite(value))
-        pin.connect()
+      #if pin?
+      #pin.pwmWrite(value)
+      #else
+      #pin = @_pwmPin(pinNum)
+      #pin.on('connect', () => pin.pwmWrite(value))
+      #pin.connect()
+
+      pin = @_pwmPin(pinNum)
+      pin.pwmWrite(value)
 
       value
 
     servoWrite: (pinNum, angle) ->
-      value = (255/180) * angle
-      @pwmWrite(pinNum, value)
+      #pin = @pwmPins[@_translatePin(pinNum)]
+      #if pin?
+      #pin.servoWrite(value)
+      #else
+      #pin = @_pwmPin(pinNum)
+      #pin.on('connect', () => pin.servoWrite(value))
+      #pin.connect()
 
-    _digitalPin: (pinNum, mode) ->
-      gpioPinNum = @_translatePin(pinNum)
-      @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) unless @pins[gpioPinNum]?
-      @pins[gpioPinNum]
+      pin = @_pwmPin(pinNum)
+      pin.servoWrite(angle)
+
+      value
 
     _pwmPin: (pinNum) ->
       gpioPinNum = @_translatePin(pinNum)
       @pwmPins[gpioPinNum] = new Cylon.IO.PwmPin(pin: gpioPinNum) unless @pwmPins[gpioPinNum]?
       @pwmPins[gpioPinNum]
 
-    _translatePin: (pinNum) ->
-      PINS[pinNum]
+    _digitalPin: (pinNum, mode) ->
+      gpioPinNum = @_translatePin(pinNum)
+      @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) unless @pins[gpioPinNum]?
+      @pins[gpioPinNum]
 
     _setupDigitalPin: (pin, pinNum, mode, eventName) ->
        pin.close() if (pin?)
        pin = @_digitalPin(pinNum, 'w')
        pin.on(eventName, (val) => @connection.emit(eventName, val))
        pin
+
+    _translatePin: (pinNum) ->
+      PINS[pinNum]
 
     _disconnectPins: ->
       for key, pin of @pins
