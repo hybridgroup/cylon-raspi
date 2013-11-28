@@ -84,16 +84,17 @@
         return 'Raspberry Pi';
       };
 
-      Raspi.prototype.digitalRead = function(pinNum, callback) {
+      Raspi.prototype.digitalRead = function(pinNum, drCb) {
         var pin,
           _this = this;
         pin = this.pins[this._translatePin(pinNum)];
-        if ((pin != null) && (pin.mode === 'r')) {
-          pin.digitalRead(value);
-        } else {
-          pin = this._setupDigitalPin(pin, pinNum, 'r', 'digitalRead');
+        if (!(pin != null)) {
+          pin.on('digitalRead', function(val) {
+            _this.connection.emit('digitalRead', val);
+            return drCb(val);
+          });
           pin.on('connect', function(data) {
-            return pin.digitalRead(10);
+            return pin.digitalRead(20);
           });
           pin.connect();
         }
@@ -104,10 +105,13 @@
         var pin,
           _this = this;
         pin = this.pins[this._translatePin(pinNum)];
-        if ((pin != null) && (pin.mode === 'w')) {
+        if ((pin != null)) {
           pin.digitalWrite(value);
         } else {
-          pin = this._setupDigitalPin(pin, pinNum, 'w', 'digitalWrite');
+          pin = this._digitalPin(pinNum, 'w');
+          pin.on('digitalWrite', function(val) {
+            return _this.connection.emit('digitalWrite', val);
+          });
           pin.on('connect', function(data) {
             return pin.digitalWrite(value);
           });
@@ -117,33 +121,17 @@
       };
 
       Raspi.prototype.pwmWrite = function(pinNum, value) {
-        var pin,
-          _this = this;
-        pin = this.pwmPins[this._translatePin(pinNum)];
-        if (pin != null) {
-          pin.pwmWrite(value);
-        } else {
-          pin = this._pwmPin(pinNum);
-          pin.on('connect', function() {
-            return pin.pwmWrite(value);
-          });
-          pin.connect();
-        }
+        var pin;
+        pin = this._pwmPin(pinNum);
+        pin.pwmWrite(value);
         return value;
       };
 
-      Raspi.prototype.servoWrite = function(pin, value) {};
-
-      Raspi.prototype._digitalPin = function(pinNum, mode) {
-        var gpioPinNum;
-        gpioPinNum = this._translatePin(pinNum);
-        if (this.pins[gpioPinNum] == null) {
-          this.pins[gpioPinNum] = new Cylon.IO.DigitalPin({
-            pin: gpioPinNum,
-            mode: mode
-          });
-        }
-        return this.pins[gpioPinNum];
+      Raspi.prototype.servoWrite = function(pinNum, angle) {
+        var pin;
+        pin = this._pwmPin(pinNum);
+        pin.servoWrite(angle);
+        return angle;
       };
 
       Raspi.prototype._pwmPin = function(pinNum) {
@@ -157,20 +145,20 @@
         return this.pwmPins[gpioPinNum];
       };
 
-      Raspi.prototype._translatePin = function(pinNum) {
-        return PINS[pinNum];
+      Raspi.prototype._digitalPin = function(pinNum, mode) {
+        var gpioPinNum;
+        gpioPinNum = this._translatePin(pinNum);
+        if (this.pins[gpioPinNum] == null) {
+          this.pins[gpioPinNum] = new Cylon.IO.DigitalPin({
+            pin: gpioPinNum,
+            mode: mode
+          });
+        }
+        return this.pins[gpioPinNum];
       };
 
-      Raspi.prototype._setupDigitalPin = function(pin, pinNum, mode, eventName) {
-        var _this = this;
-        if ((pin != null)) {
-          pin.close();
-        }
-        pin = this._digitalPin(pinNum, 'w');
-        pin.on(eventName, function(val) {
-          return _this.connection.emit(eventName, val);
-        });
-        return pin;
+      Raspi.prototype._translatePin = function(pinNum) {
+        return PINS[pinNum];
       };
 
       Raspi.prototype._disconnectPins = function() {

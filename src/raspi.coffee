@@ -62,59 +62,54 @@ namespace "Cylon.Adaptor", ->
     firmwareName: ->
       'Raspberry Pi'
 
-    digitalRead: (pinNum, callback) ->
+    digitalRead: (pinNum, drCb) ->
       pin = @pins[@_translatePin(pinNum)]
-      if (pin?) and (pin.mode == 'r')
-        pin.digitalRead(value)
-      else
-        pin = @_setupDigitalPin(pin, pinNum, 'r', 'digitalRead')
-        pin.on('connect', (data) => pin.digitalRead(10))
+      unless (pin?)
+        pin.on('digitalRead', (val) =>
+          @connection.emit('digitalRead', val)
+          drCb(val)
+        )
+        pin.on('connect', (data) => pin.digitalRead(20))
         pin.connect()
 
       true
 
     digitalWrite: (pinNum, value) ->
       pin = @pins[@_translatePin(pinNum)]
-      if (pin?) and (pin.mode == 'w')
+      if (pin?)
         pin.digitalWrite(value)
       else
-        pin = @_setupDigitalPin(pin, pinNum, 'w', 'digitalWrite')
+        pin = @_digitalPin(pinNum, 'w')
+        pin.on('digitalWrite', (val) => @connection.emit('digitalWrite', val))
         pin.on('connect', (data) => pin.digitalWrite(value))
         pin.connect()
 
       value
 
     pwmWrite: (pinNum, value) ->
-      pin = @pwmPins[@_translatePin(pinNum)]
-      if pin?
-        pin.pwmWrite(value)
-      else
-        pin = @_pwmPin(pinNum)
-        pin.on('connect', () => pin.pwmWrite(value))
-        pin.connect()
+      pin = @_pwmPin(pinNum)
+      pin.pwmWrite(value)
 
       value
 
-    servoWrite: (pin, value) ->
+    servoWrite: (pinNum, angle) ->
+      pin = @_pwmPin(pinNum)
+      pin.servoWrite(angle)
 
-    _digitalPin: (pinNum, mode) ->
-      gpioPinNum = @_translatePin(pinNum)
-      @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) unless @pins[gpioPinNum]?
-      @pins[gpioPinNum]
+      angle
 
     _pwmPin: (pinNum) ->
       gpioPinNum = @_translatePin(pinNum)
       @pwmPins[gpioPinNum] = new Cylon.IO.PwmPin(pin: gpioPinNum) unless @pwmPins[gpioPinNum]?
       @pwmPins[gpioPinNum]
 
+    _digitalPin: (pinNum, mode) ->
+      gpioPinNum = @_translatePin(pinNum)
+      @pins[gpioPinNum] = new Cylon.IO.DigitalPin(pin: gpioPinNum, mode: mode) unless @pins[gpioPinNum]?
+      @pins[gpioPinNum]
+
     _translatePin: (pinNum) ->
       PINS[pinNum]
-
-    _setupDigitalPin: (pin, pinNum, mode, eventName) ->
-       pin.close() if (pin?)
-       pin = @_digitalPin(pinNum, 'w')
-       pin.on(eventName, (val) => @connection.emit(eventName, val))
-       pin
 
     _disconnectPins: ->
       for key, pin of @pins
