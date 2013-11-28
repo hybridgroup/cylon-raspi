@@ -84,14 +84,15 @@
         return 'Raspberry Pi';
       };
 
-      Raspi.prototype.digitalRead = function(pinNum, drCb) {
+      Raspi.prototype.digitalRead = function(pinNum, drCallback) {
         var pin,
           _this = this;
         pin = this.pins[this._translatePin(pinNum)];
         if (!(pin != null)) {
+          pin = this._digitalPin(pinNum, 'r');
           pin.on('digitalRead', function(val) {
             _this.connection.emit('digitalRead', val);
-            return drCb(val);
+            return drCallback(val);
           });
           pin.on('connect', function(data) {
             return pin.digitalRead(20);

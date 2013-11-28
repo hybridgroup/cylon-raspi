@@ -62,12 +62,13 @@ namespace "Cylon.Adaptor", ->
     firmwareName: ->
       'Raspberry Pi'
 
-    digitalRead: (pinNum, drCb) ->
+    digitalRead: (pinNum, drCallback) ->
       pin = @pins[@_translatePin(pinNum)]
       unless (pin?)
+        pin = @_digitalPin(pinNum, 'r')
         pin.on('digitalRead', (val) =>
           @connection.emit('digitalRead', val)
-          drCb(val)
+          (drCallback)(val)
         )
         pin.on('connect', (data) => pin.digitalRead(20))
         pin.connect()
