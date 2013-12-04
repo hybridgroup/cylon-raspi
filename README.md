@@ -55,6 +55,11 @@ Thank you!
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
+[![NPM](https://nodei.co/npm/cylon-raspi.png?compact=true)](https://nodei.co/npm/cylon-raspi/)
+
+Version 0.2.0 - Release for cylon 0.7.0
+
 Version 0.1.0 - Initial release
 
 ## License
