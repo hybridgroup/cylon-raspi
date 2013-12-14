@@ -33,8 +33,10 @@
   },
   "dependencies": {
     "node-namespace": "~1.0.0",
-    "cylon": "~0.7.0",
-    "cylon-gpio": "~0.6.0",
-    "cylon-i2c": "~0.4.0"
+    "cylon": ">= 0.7.0"
+  },
+  "peerDependencies": {
+    "cylon-gpio": ">= 0.6.0",
+    "cylon-i2c": ">= 0.4.0"
   }
 }
