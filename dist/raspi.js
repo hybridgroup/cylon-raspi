@@ -56,12 +56,10 @@
 
       function Raspi(opts) {
         Raspi.__super__.constructor.apply(this, arguments);
-        this.connection = opts.connection;
-        this.name = opts.name;
         this.board = "";
         this.pins = {};
         this.pwmPins = {};
-        this.myself;
+        this.myself = this;
       }
 
       Raspi.prototype.commands = function() {
@@ -69,9 +67,7 @@
       };
 
       Raspi.prototype.connect = function(callback) {
-        Logger.debug("Connecting to board '" + this.name + "'...");
-        this.connection.emit('connect');
-        callback(null);
+        Raspi.__super__.connect.apply(this, arguments);
         return this.proxyMethods(this.commands, this.board, this.myself);
       };
 
@@ -182,7 +178,7 @@
 
       return Raspi;
 
-    })(Cylon.Adaptors.Adaptor);
+    })(Cylon.Adaptor);
   });
 
 }).call(this);

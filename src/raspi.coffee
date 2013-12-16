@@ -13,7 +13,7 @@ require "./pwm-pin"
 namespace = require 'node-namespace'
 
 namespace "Cylon.Adaptors", ->
-  class @Raspi extends Cylon.Adaptors.Adaptor
+  class @Raspi extends Cylon.Adaptor
     PINS= {
       3: { rev1: 0, rev2: 2 },
       5: { rev1: 1, rev2: 3 },
@@ -36,22 +36,17 @@ namespace "Cylon.Adaptors", ->
 
     constructor: (opts) ->
       super
-      @connection = opts.connection
-      @name = opts.name
       @board = ""
       @pins = {}
       @pwmPins = {}
-      @myself
+      @myself = this
 
     commands: ->
       ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite', 'servoWrite', 'firmwareName']
       #'sendI2CConfig', 'sendI2CWriteRequest', 'sendI2CReadRequest']
 
     connect: (callback) ->
-      Logger.debug "Connecting to board '#{@name}'..."
-      @connection.emit 'connect'
-      (callback)(null)
-
+      super
       @proxyMethods @commands, @board, @myself
 
     disconnect: ->
