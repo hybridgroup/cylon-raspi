@@ -8,12 +8,13 @@
 
 'use strict';
 
+require "cylon"
 require "./raspi"
 GPIO = require "cylon-gpio"
 
 module.exports =
   adaptor: (args...) ->
-    new Cylon.Adaptor.Raspi(args...)
+    new Cylon.Adaptors.Raspi(args...)
 
   driver: (args...) ->
     GPIO.driver(args...)

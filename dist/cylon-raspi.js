@@ -12,6 +12,8 @@
   var GPIO,
     __slice = [].slice;
 
+  require("cylon");
+
   require("./raspi");
 
   GPIO = require("cylon-gpio");
@@ -24,7 +26,7 @@
         ctor.prototype = func.prototype;
         var child = new ctor, result = func.apply(child, args);
         return Object(result) === result ? result : child;
-      })(Cylon.Adaptor.Raspi, args, function(){});
+      })(Cylon.Adaptors.Raspi, args, function(){});
     },
     driver: function() {
       var args;

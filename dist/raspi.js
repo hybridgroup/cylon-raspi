@@ -13,11 +13,13 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
+  require("./cylon-raspi");
+
   require("./pwm-pin");
 
   namespace = require('node-namespace');
 
-  namespace("Cylon.Adaptor", function() {
+  namespace("Cylon.Adaptors", function() {
     return this.Raspi = (function(_super) {
       var PINS;
 
@@ -54,12 +56,10 @@
 
       function Raspi(opts) {
         Raspi.__super__.constructor.apply(this, arguments);
-        this.connection = opts.connection;
-        this.name = opts.name;
         this.board = "";
         this.pins = {};
         this.pwmPins = {};
-        this.myself;
+        this.myself = this;
       }
 
       Raspi.prototype.commands = function() {
@@ -67,9 +67,7 @@
       };
 
       Raspi.prototype.connect = function(callback) {
-        Logger.debug("Connecting to board '" + this.name + "'...");
-        this.connection.emit('connect');
-        callback(null);
+        Raspi.__super__.connect.apply(this, arguments);
         return this.proxyMethods(this.commands, this.board, this.myself);
       };
 
@@ -180,7 +178,7 @@
 
       return Raspi;
 
-    })(Cylon.Basestar);
+    })(Cylon.Adaptor);
   });
 
 }).call(this);

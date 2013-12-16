@@ -1,14 +1,8 @@
 'use strict';
 
-# Needed so that tests don't implode
-namespace = require 'node-namespace'
-namespace 'Cylon', ->
-  class @Basestar
-    constructor: ->
-
 raspi = source("cylon-raspi")
 
-describe "basic tests", ->
+describe "Cylon.Raspi", ->
   it "standard async test", (done) ->
     bool = false
     bool.should.be.false
