@@ -8,11 +8,12 @@
 
 'use strict';
 
+require "./cylon-raspi"
 require "./pwm-pin"
 namespace = require 'node-namespace'
 
-namespace "Cylon.Adaptor", ->
-  class @Raspi extends Cylon.Basestar
+namespace "Cylon.Adaptors", ->
+  class @Raspi extends Cylon.Adaptors.Adaptor
     PINS= {
       3: { rev1: 0, rev2: 2 },
       5: { rev1: 1, rev2: 3 },

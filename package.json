@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "node-namespace": "~1.0.0",
-    "cylon": ">= 0.7.0"
+    "cylon": ">= 0.8.0"
   },
   "peerDependencies": {
     "cylon-gpio": ">= 0.6.0",

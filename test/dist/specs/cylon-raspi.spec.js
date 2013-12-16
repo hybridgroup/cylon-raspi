@@ -1,21 +1,10 @@
 (function() {
   'use strict';
-  var namespace, raspi;
-
-  namespace = require('node-namespace');
-
-  namespace('Cylon', function() {
-    return this.Basestar = (function() {
-      function Basestar() {}
-
-      return Basestar;
-
-    })();
-  });
+  var raspi;
 
   raspi = source("cylon-raspi");
 
-  describe("basic tests", function() {
+  describe("Cylon.Raspi", function() {
     it("standard async test", function(done) {
       var bool;
       bool = false;
