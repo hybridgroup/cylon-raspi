@@ -58,6 +58,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 [![NPM](https://nodei.co/npm/cylon-raspi.png?compact=true)](https://nodei.co/npm/cylon-raspi/)
 
+Version 0.3.0 - Release for cylon 0.8.0
+
 Version 0.2.0 - Release for cylon 0.7.0
 
 Version 0.1.0 - Initial release
