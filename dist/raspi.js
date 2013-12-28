@@ -21,7 +21,7 @@
 
   namespace("Cylon.Adaptors", function() {
     return this.Raspi = (function(_super) {
-      var PINS;
+      var I2C_INTERFACE, PINS;
 
       __extends(Raspi, _super);
 
@@ -54,16 +54,19 @@
         26: 7
       };
 
+      I2C_INTERFACE = '/dev/i2c-1';
+
       function Raspi(opts) {
         Raspi.__super__.constructor.apply(this, arguments);
         this.board = "";
         this.pins = {};
         this.pwmPins = {};
+        this.i2cDevices = {};
         this.myself = this;
       }
 
       Raspi.prototype.commands = function() {
-        return ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite', 'servoWrite', 'firmwareName'];
+        return ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite', 'servoWrite', 'firmwareName', 'i2cWrite', 'i2cRead'];
       };
 
       Raspi.prototype.connect = function(callback) {
@@ -117,6 +120,31 @@
           pin.connect();
         }
         return value;
+      };
+
+      Raspi.prototype.i2cWrite = function(address, cmd, buff, callback) {
+        if (callback == null) {
+          callback = null;
+        }
+        buff = buff != null ? buff : [];
+        return this._i2cDevice(address).write(cmd, buff, callback);
+      };
+
+      Raspi.prototype.i2cRead = function(address, cmd, length, callback) {
+        if (callback == null) {
+          callback = null;
+        }
+        return this._i2cDevice(address).read(cmd, length, callback);
+      };
+
+      Raspi.prototype._i2cDevice = function(address) {
+        if (this.i2cDevices[address] == null) {
+          this.i2cDevices[address] = new Cylon.I2C.I2CDevice({
+            address: address,
+            "interface": I2C_INTERFACE
+          });
+        }
+        return this.i2cDevices[address];
       };
 
       Raspi.prototype.pwmWrite = function(pinNum, value) {

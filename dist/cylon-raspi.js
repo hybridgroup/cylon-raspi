@@ -9,7 +9,7 @@
 
 (function() {
   'use strict';
-  var GPIO,
+  var GPIO, I2C,
     __slice = [].slice;
 
   require("cylon");
@@ -17,6 +17,8 @@
   require("./raspi");
 
   GPIO = require("cylon-gpio");
+
+  I2C = require("cylon-i2c");
 
   module.exports = {
     adaptor: function() {
