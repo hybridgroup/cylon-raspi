@@ -18,10 +18,11 @@ module.exports =
     new Cylon.Adaptors.Raspi(args...)
 
   driver: (args...) ->
-    GPIO.driver(args...)
+    GPIO.driver(args...) or I2C.driver(args...)
 
   register: (robot) ->
     Logger.debug "Registering Raspberry Pi adaptor for #{robot.name}"
     robot.registerAdaptor 'cylon-raspi', 'raspi'
 
     GPIO.register robot
+    I2C.register robot

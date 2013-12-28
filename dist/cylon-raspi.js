@@ -33,12 +33,13 @@
     driver: function() {
       var args;
       args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
-      return GPIO.driver.apply(GPIO, args);
+      return GPIO.driver.apply(GPIO, args) || I2C.driver.apply(I2C, args);
     },
     register: function(robot) {
       Logger.debug("Registering Raspberry Pi adaptor for " + robot.name);
       robot.registerAdaptor('cylon-raspi', 'raspi');
-      return GPIO.register(robot);
+      GPIO.register(robot);
+      return I2C.register(robot);
     }
   };
 
