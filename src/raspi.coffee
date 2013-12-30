@@ -6,7 +6,7 @@
  * Licensed under the Apache 2.0 license.
 ###
 
-'use strict';
+'use strict'
 
 require "./cylon-raspi"
 require "./pwm-pin"
@@ -34,15 +34,19 @@ namespace "Cylon.Adaptors", ->
       26: 7,
     }
 
+    I2C_INTERFACE = '/dev/i2c-1'
+
     constructor: (opts) ->
       super
       @board = ""
       @pins = {}
       @pwmPins = {}
+      @i2cDevices = {}
       @myself = this
 
     commands: ->
-      ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite', 'servoWrite', 'firmwareName']
+      ['pins', 'pinMode', 'digitalRead', 'digitalWrite', 'pwmWrite',
+       'servoWrite', 'firmwareName', 'i2cWrite', 'i2cRead']
       #'sendI2CConfig', 'sendI2CWriteRequest', 'sendI2CReadRequest']
 
     connect: (callback) ->
@@ -82,6 +86,19 @@ namespace "Cylon.Adaptors", ->
         pin.connect()
 
       value
+
+    # If callback is provided an async call will be made, otherwise sync.
+    i2cWrite: (address, cmd, buff, callback = null) ->
+      buff = buff ? []
+      @_i2cDevice(address).write(cmd, buff, callback)
+
+    # If callback is provided an async call will be made, otherwise sync.
+    i2cRead: (address, cmd, length, callback = null) ->
+      @_i2cDevice(address).read(cmd, length, callback)
+
+    _i2cDevice: (address) ->
+      @i2cDevices[address] = new Cylon.I2C.I2CDevice(address: address, interface: I2C_INTERFACE) unless @i2cDevices[address]?
+      @i2cDevices[address]
 
     pwmWrite: (pinNum, value) ->
       pin = @_pwmPin(pinNum)
