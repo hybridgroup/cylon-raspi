@@ -65,4 +65,4 @@ Version 0.2.0 - Release for cylon 0.7.0
 Version 0.1.0 - Initial release
 
 ## License
-Copyright (c) 2013 The Hybrid Group. Licensed under the Apache 2.0 license.
+Copyright (c) 2013-2014 The Hybrid Group. Licensed under the Apache 2.0 license.
