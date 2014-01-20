@@ -8,8 +8,9 @@
 
 'use strict'
 
-require "./cylon-raspi"
 require "./pwm-pin"
+require './i2c-device'
+
 namespace = require 'node-namespace'
 
 namespace "Cylon.Adaptors", ->
