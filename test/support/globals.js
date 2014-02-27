@@ -8,6 +8,9 @@ var path = require('path');
 var chai = require('chai');
 var sinonChai = require('sinon-chai');
 
+require('cylon');
+Logger.setup(false) // disable Cylon's logger for tests
+
 global.chai = chai;
 global.should = chai.should();
 global.expect = chai.expect;
@@ -19,7 +22,7 @@ global.sinon = require('sinon');
 // relative to the base path (where the Gruntfile.js also lives)
 global.source = function (src) {
   console.log('source loading: ' +  src)
-  var resource = path.normalize('../../dist/' + src);
+  var resource = path.normalize('../../lib/' + src);
 
   return require(resource);
 };
