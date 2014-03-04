@@ -67,6 +67,8 @@ Thank you!
 
 ## Release History
 
+Version 0.6.0 - Release for cylon 0.11.0, refactor into pure JavaScript, i2c bugfixes
+
 Version 0.5.0 - Release for cylon 0.10.0
 
 Version 0.4.0 - Release for cylon 0.9.0
