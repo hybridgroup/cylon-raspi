@@ -5,8 +5,8 @@ Cylon.robot({
   device: { name: 'led', driver: 'led', pin: 11 },
 
   work: function(my) {
-    var brightness = 0;
-    var fade = 5;
+    var brightness = 0,
+        fade = 5;
 
     every(0.05.seconds(), function() {
       brightness += fade;

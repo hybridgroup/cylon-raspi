@@ -17,14 +17,14 @@ previously-mentioned `cylon-raspi` module. We'll also have one device, the LED
 on pin 11.
 
       connection: { name: 'raspi', adaptor: 'raspi' },
-	  	device: { name: 'led', driver: 'led', pin: 11 },
+      device: { name: 'led', driver: 'led', pin: 11 },
 
 Those are all the components for our robot, so next we'll define the work. All
 we're going to do for this example is tell the LED to toggle every second.
 
       work: function(my) {
-		    every((1).second(), function() { my.led.toggle(); });
-		  }
+        every((1).second(), my.led.toggle);
+      }
 
 And with all those pieces in place, we can tell the robot to get started:
 

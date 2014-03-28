@@ -5,6 +5,6 @@ Cylon.robot({
   device: { name: 'led', driver: 'led', pin: 11 },
 
   work: function(my) {
-    every((1).second(), function() { my.led.toggle(); });
+    every((1).second(), my.led.toggle);
   }
 }).start();

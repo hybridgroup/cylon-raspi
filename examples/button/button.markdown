@@ -18,7 +18,6 @@ on. For hardware, we're keeping it simple. A LED on pin 11, and a button on pin
 7.
 
       connection: { name: 'raspi', adaptor: 'raspi' },
-
       devices: [
         { name: 'led', driver: 'led', pin: 11 },
         { name: 'button', driver: 'button', pin: 7 }
@@ -28,7 +27,7 @@ With the hardware defined, we can get to the work our robot will perform. And as
 you can see, it's enormously complex:
 
       work: function(my) {
-        my.button.on('push', function() { my.led.toggle(); });
+        my.button.on('push', my.led.toggle);
       }
 
 Essentially, when the robot's button emits the 'push' event (when it's pressed),

@@ -25,8 +25,8 @@ Next up, we'll define our robot's work:
 We'll set some variables here: brightness will represent the LED's brightness,
 from 1-255, and 'fade' will be the brightness change on each tick.
 
-        var brightness = 0;
-        var fade = 5;
+        var brightness = 0,
+            fade = 5;
 
 Every 50 milliseconds, we'll be incrementing the brightness by `fade`'s value,
 setting the LED to that brightness, and reversing `fade`'s value if brightness
