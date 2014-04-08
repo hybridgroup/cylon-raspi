@@ -30,20 +30,37 @@ var robot = Cylon.robot({
 robot.start();
 ```
 
-```coffee-script
-Cylon = require('cylon')
+## Available PINs
 
-Cylon.robot
-  connection:
-    name: 'raspi', adaptor: 'raspi'
-
-  device:
-    name: 'led', driver: 'led', pin: 11
-
-  work: (my) ->
-    every 1.second(), -> my.led.toggle()
-
-.start()
+```bash
+PINS = {
+  3: {
+    rev1: 0,
+    rev2: 2
+  },
+  5: {
+    rev1: 1,
+    rev2: 3
+  },
+  7: 4,
+  8: 14,
+  10: 15,
+  11: 17,
+  12: 18,
+  13: {
+    rev1: 21,
+    rev2: 27
+  },
+  15: 22,
+  16: 23,
+  18: 24,
+  19: 10,
+  21: 9,
+  22: 25,
+  23: 11,
+  24: 8,
+  26: 7
+};
 ```
 
 ## Documentation
