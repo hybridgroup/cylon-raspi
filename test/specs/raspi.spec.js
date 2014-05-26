@@ -1,10 +1,9 @@
 'use strict';
 
-require('cylon');
-source('raspi');
-
-Logger.setup(false);
+var Adaptor = source('raspi');
 
 describe('Cylon.Adaptors.Raspi', function() {
-  return it("needs tests");
+  var raspi = new Adaptor();
+
+  it("needs tests");
 });
