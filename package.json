@@ -1,6 +1,6 @@
 {
   "name": "cylon-raspi",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "main": "lib/cylon-raspi.js",
   "description": "Cylon adaptor for Raspberry Pi",
   "homepage": "http://cylonjs.com",
@@ -24,9 +24,9 @@
   },
 
   "dependencies": {
-    "cylon":          ">= 0.12.0",
-    "cylon-gpio":     ">= 0.12.0",
-    "i2c":            ">=0.1.4",
-    "cylon-i2c":      ">= 0.9.0"
+    "cylon":      "~0.14.0",
+    "cylon-gpio": "~0.14.0",
+    "i2c":        ">=0.1.4",
+    "cylon-i2c":  "~0.11.0"
   }
 }

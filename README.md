@@ -84,6 +84,8 @@ Thank you!
 
 ## Release History
 
+Version 0.8.0 - Compatibility with Cylon 0.14.0, remove node-namespace.
+
 Version 0.7.0 - Release for cylon 0.12.0
 
 Version 0.6.2 - Fixes bug with connection not being set on adaptor.
