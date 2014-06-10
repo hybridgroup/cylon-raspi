@@ -84,6 +84,8 @@ Thank you!
 
 ## Release History
 
+Version 0.8.1 - Fix a bug with PWM pins
+
 Version 0.8.0 - Compatibility with Cylon 0.14.0, remove node-namespace.
 
 Version 0.7.0 - Release for cylon 0.12.0
