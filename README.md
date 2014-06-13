@@ -84,6 +84,8 @@ Thank you!
 
 ## Release History
 
+Version 0.9.1 - Add peerDependencies to package.json
+
 Version 0.9.0 - Compatibility with Cylon 0.15.0
 
 Version 0.8.1 - Fix a bug with PWM pins
