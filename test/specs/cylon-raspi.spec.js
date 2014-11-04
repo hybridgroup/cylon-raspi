@@ -1,17 +1,24 @@
 'use strict';
 
-var raspi = source("cylon-raspi");
+var module = source("cylon-raspi");
+var Raspi = source('raspi');
 
 describe("Cylon.Raspi", function() {
-  it("can register", function() {
-    raspi.register.should.be.a('function');
+  describe("#adaptors", function() {
+    it('is an array of supplied adaptors', function() {
+      expect(module.adaptors).to.be.eql(['raspi']);
+    });
   });
 
-  it("can create an adaptor", function() {
-    raspi.adaptor.should.be.a('function');
+  describe("#dependencies", function() {
+    it('is an array of dependencies', function() {
+      expect(module.dependencies).to.be.eql(['cylon-gpio', 'cylon-i2c']);
+    });
   });
 
-  it("can create a driver", function() {
-    raspi.driver.should.be.a('function');
+  describe("#adaptor", function() {
+    it("returns an instance of the Adaptor", function() {
+      expect(module.adaptor()).to.be.instanceOf(Raspi);
+    });
   });
 });
