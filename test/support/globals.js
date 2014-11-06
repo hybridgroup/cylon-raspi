@@ -3,7 +3,6 @@
 // allow production modules to expose internal
 // functions and properties for testing
 process.env.NODE_ENV = 'test';
-global.CYLON_TEST = true;
 
 var path = require('path');
 var chai = require('chai');
