@@ -23,6 +23,8 @@ lint:
 
 # Cuts/publishes a new release
 release:
+	@git push origin master
+	@git checkout release ; git merge master ; git push ; git checkout master
 	@git tag -m "$(VERSION)" v$(VERSION)
 	@git push --tags
 	@npm publish ./
