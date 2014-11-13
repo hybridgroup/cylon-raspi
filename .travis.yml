@@ -2,6 +2,7 @@ language: node_js
 node_js: '0.10'
 install:
   - npm install
+  - npm install git://github.com/hybridgroup/cylon.git
   - npm install -g istanbul codeclimate-test-reporter
 script:
   - make cover
