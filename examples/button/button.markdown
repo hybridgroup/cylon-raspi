@@ -18,10 +18,10 @@ on. For hardware, we're keeping it simple. A LED on pin 11, and a button on pin
 7.
 
       connection: { name: 'raspi', adaptor: 'raspi' },
-      devices: [
-        { name: 'led', driver: 'led', pin: 11 },
-        { name: 'button', driver: 'button', pin: 7 }
-      ],
+      devices: {
+        led: { driver: 'led', pin: 11 },
+        button: { driver: 'button', pin: 7 }
+      },
 
 With the hardware defined, we can get to the work our robot will perform. And as
 you can see, it's enormously complex:
