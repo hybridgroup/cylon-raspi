@@ -17,7 +17,10 @@ Our robot has one connection, to the Raspberry Pi the hardware will be running
 on. For hardware, we're keeping it simple. A LED on pin 11, and a button on pin
 7.
 
-      connection: { name: 'raspi', adaptor: 'raspi' },
+      connections: {
+        raspi: { adaptor: 'raspi' }
+      },
+
       devices: {
         led: { driver: 'led', pin: 11 },
         button: { driver: 'button', pin: 7 }

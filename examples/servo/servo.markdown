@@ -17,9 +17,13 @@ Now we can start defining our robot:
 We'll be connecting to an Raspberry Pi, and using a servo attached to the
 Raspberry Pi on pin 11.
 
+      connections: {
+        raspi: { adaptor: 'raspi' }
+      },
 
-      connection: { name: 'raspi', adaptor: 'raspi', port: '/dev/ttyACM0' },
-      device: { name: 'servo', driver: 'servo', pin: 11 },
+      devices: {
+        servo: { driver: 'servo', pin: 11 }
+      },
 
 We'll start defining the work for our robot next:
 

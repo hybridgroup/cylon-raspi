@@ -15,8 +15,13 @@ Once we've got that, we can start defining our robot:
 We'll be using a Raspberry Pi as our connection. As well, we'll let our robot
 know about the LED we'll be modifying, on pin #11 of the Raspberry Pi.
 
-      connection: { name: 'raspi', adaptor: 'raspi', port: '/dev/ttyACM0' },
-      device: { name: 'led', driver: 'led', pin: 11 },
+      connections: {
+        raspi: { adaptor: 'raspi' }
+      },
+
+      devices: {
+        led: { driver: 'led', pin: 11 }
+      },
 
 Next up, we'll define our robot's work:
 

@@ -16,8 +16,13 @@ We'll have a singular connection to a Raspberry Pi, using the
 previously-mentioned `cylon-raspi` module. We'll also have one device, the LED
 on pin 11.
 
-      connection: { name: 'raspi', adaptor: 'raspi' },
-      device: { name: 'led', driver: 'led', pin: 11 },
+      connections: {
+        raspi: { adaptor: 'raspi' }
+      },
+
+      devices: {
+        led: { driver: 'led', pin: 11 }
+      },
 
 Those are all the components for our robot, so next we'll define the work. All
 we're going to do for this example is tell the LED to toggle every second.

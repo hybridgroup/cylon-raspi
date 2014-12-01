@@ -17,17 +17,19 @@ Install the module with: `npm install cylon-raspi`
 ```javascript
 var Cylon = require("cylon");
 
-var robot = Cylon.robot({
-  connection: { name: 'raspi', adaptor: 'raspi' },
-  device: { name: 'led', driver: 'led', pin: 11 },
+Cylon.robot({
+  connection: {
+    raspi: { adaptor: 'raspi' }
+  },
+
+  device: {
+    led: { driver: 'led', pin: 11 }
+  },
 
   work: function(my) {
-    every((1).second(), function() { my.led.toggle(); });
+    every((1).second(), my.led.toggle);
   }
-});
-
-// start working
-robot.start();
+}).start();
 ```
 
 ## Available PINs

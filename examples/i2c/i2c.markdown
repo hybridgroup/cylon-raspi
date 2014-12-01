@@ -10,8 +10,13 @@ Now that we have Cylon imported, we can start defining our robot
 
 Let's define the connections and devices:
 
-      connection: { name: 'raspi', adaptor: 'raspi' },
-      device: { name: 'pixel', driver: 'blinkm' },
+      connections: {
+        raspi: { adaptor: 'raspi' }
+      },
+
+      devices: {
+        pixel: { driver: 'blinkm' }
+      },
 
 Now that Cylon knows about the necessary hardware we're going to be using, we'll
 tell it what work we want to do:

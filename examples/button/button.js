@@ -1,7 +1,10 @@
 var Cylon = require('cylon');
 
 Cylon.robot({
-  connection: { name: 'raspi', adaptor: 'raspi' },
+  connections: {
+    raspi: { adaptor: 'raspi' }
+  },
+
   devices: {
     led: { driver: 'led', pin: 11 },
     button: { driver: 'button', pin: 7 }
