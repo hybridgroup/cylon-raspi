@@ -18,11 +18,11 @@ Install the module with: `npm install cylon-raspi`
 var Cylon = require("cylon");
 
 Cylon.robot({
-  connection: {
+  connections: {
     raspi: { adaptor: 'raspi' }
   },
 
-  device: {
+  devices: {
     led: { driver: 'led', pin: 11 }
   },
 
