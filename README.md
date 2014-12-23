@@ -8,11 +8,15 @@ Want to use Ruby on robots? Check out our sister project Artoo (http://artoo.io)
 
 [![Build Status](https://secure.travis-ci.org/hybridgroup/cylon-raspi.png?branch=master)](http://travis-ci.org/hybridgroup/cylon-raspi) [![Code Climate](https://codeclimate.com/github/hybridgroup/cylon-raspi/badges/gpa.svg)](https://codeclimate.com/github/hybridgroup/cylon-raspi) [![Test Coverage](https://codeclimate.com/github/hybridgroup/cylon-raspi/badges/coverage.svg)](https://codeclimate.com/github/hybridgroup/cylon-raspi)
 
-## Getting Started
+## How to Install
 
-Install the module with: `npm install cylon-raspi`
+Install the module with:
 
-## Examples
+    $ npm install cylon-raspi
+
+## How to Use
+
+This small program causes an LED to blink.
 
 ```javascript
 var Cylon = require("cylon");
@@ -32,17 +36,50 @@ Cylon.robot({
 }).start();
 ```
 
-## Available PINs
+## How to Connect
 
-```bash
+### Connecting to Raspberry Pi GPIO
+
+This module only works on a real Raspberry Pi. Do not bother trying on any other kind of computer it will not work.
+Also note you will need to connect actual circuits to the Raspberry Pi's GPIO pins.
+
+### Enabling the Raspberry Pi i2c on Raspbian
+
+You must add these two entries to your `/etc/modules`
+
+    i2c-bcm2708
+    i2c-dev
+
+You must also ensure that these entries are commented in your `/etc/modprobe.d/raspi-blacklist.conf`
+
+    #blacklist spi-bcm2708
+    #blacklist i2c-bcm2708
+
+Now restart your raspberry pi.
+
+### Enabling PWM output on GPIO pins.
+
+You need to install and have pi-blaster running in the raspberry-pi, you can follow the instructions for pi-blaster install in the pi-blaster repo here:
+
+[https://github.com/sarfata/pi-blaster](https://github.com/sarfata/pi-blaster)
+
+### Available PINS
+
+The following object depicts available pins for all revisions of raspberry-pi, the `key` is the actual number of the physical pin header on the board,the `value` is the GPIO pin number assigned by the OS, for the pins with changes between board revisions, the value contains the variations of GPIO pin number assignment between them (eg.rev1, rev2, rev3).
+
+You should just be concerned with the `key` (number of the physical pin header on the board), Cylon.JS takes care of the board revision and GPIO pin numbers for you, this full list is for reference only.
+
+```javascript
 PINS = {
   3: {
     rev1: 0,
-    rev2: 2
+    rev2: 2,
+    rev3: 2
   },
   5: {
     rev1: 1,
-    rev2: 3
+    rev2: 3,
+    rev3: 3
   },
   7: 4,
   8: 14,
@@ -51,7 +88,8 @@ PINS = {
   12: 18,
   13: {
     rev1: 21,
-    rev2: 27
+    rev2: 27,
+    rev3: 27
   },
   15: 22,
   16: 23,
@@ -61,11 +99,38 @@ PINS = {
   22: 25,
   23: 11,
   24: 8,
-  26: 7
+  29: {
+    rev3: 5
+  },
+  31: {
+    rev3: 6
+  },
+  32: {
+    rev3: 12
+  },
+  33: {
+    rev3: 13
+  },
+  35: {
+    rev3: 19
+  },
+  36: {
+    rev3: 16
+  },
+  37: {
+    rev3: 26
+  },
+  38: {
+    rev3: 20
+  },
+  40: {
+    rev3: 21
+  }
 };
 ```
 
 ## Documentation
+
 We're busy adding documentation to our web site at http://cylonjs.com/ please check there as we continue to work on Cylon.js
 
 Thank you!
