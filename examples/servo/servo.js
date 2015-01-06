@@ -1,13 +1,15 @@
-var Cylon = require('cylon');
+"use strict";
+
+var Cylon = require("cylon");
 
 Cylon.robot({
   connections: {
-    raspi: { adaptor: 'raspi', port: '/dev/ttyACM0' }
+    raspi: { adaptor: "raspi", port: "/dev/ttyACM0" }
   },
 
   devices: {
     servo: {
-      driver: 'servo',
+      driver: "servo",
       pin: 11,
       limits: { bottom: 20, top: 160 }
     }

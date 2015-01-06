@@ -1,11 +1,13 @@
-var Cylon = require('cylon');
+"use strict";
+
+var Cylon = require("cylon");
 
 Cylon
   .robot()
-  .connection('blinkm', { adaptor: 'raspi' })
-  .device('pixel', { driver: 'blinkm' })
+  .connection("blinkm", { adaptor: "raspi" })
+  .device("pixel", { driver: "blinkm" })
 
-  .on('ready', function(bot) {
+  .on("ready", function(bot) {
     // Before you can use and work with I2C in the raspberry pi you
     // need to configure it, follow the instructions to enable it here:
     //

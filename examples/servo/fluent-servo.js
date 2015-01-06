@@ -1,10 +1,16 @@
-var Cylon = require('cylon');
+"use strict";
+
+var Cylon = require("cylon");
 
 Cylon
   .robot()
-  .connection('raspi', { adaptor: 'raspi', port: '/dev/ttyACM0' })
-  .device('servo', { driver: 'servo', pin: 11, limits: { bottom: 20, top: 160 } })
-  .on('ready', function(bot) {
+  .connection("raspi", { adaptor: "raspi", port: "/dev/ttyACM0" })
+  .device("servo", {
+    driver: "servo",
+    pin: 11,
+    limits: { bottom: 20, top: 160 }
+  })
+  .on("ready", function(bot) {
     var angle = 30,
     increment = 40;
 

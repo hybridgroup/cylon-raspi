@@ -1,12 +1,14 @@
-var Cylon = require('cylon');
+"use strict";
+
+var Cylon = require("cylon");
 
 Cylon.robot({
   connections: {
-    raspi: { adaptor: 'raspi' }
+    raspi: { adaptor: "raspi" }
   },
 
   devices: {
-    pixel: { driver: 'blinkm' }
+    pixel: { driver: "blinkm" }
   },
 
   work: function(my) {

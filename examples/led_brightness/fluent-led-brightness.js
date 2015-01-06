@@ -1,10 +1,12 @@
-var Cylon = require('cylon');
+"use strict";
+
+var Cylon = require("cylon");
 
 Cylon
   .robot()
-  .connection('raspi', { adaptor: 'raspi', port: '/dev/ttyACM0' })
-  .device('led', { driver: 'led', pin: 11 })
-  .on('ready', function(bot) {
+  .connection("raspi", { adaptor: "raspi", port: "/dev/ttyACM0" })
+  .device("led", { driver: "led", pin: 11 })
+  .on("ready", function(bot) {
     var brightness = 0,
     fade = 5;
 
