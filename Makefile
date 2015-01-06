@@ -1,28 +1,28 @@
 BIN := ./node_modules/.bin
+FILES := $(shell find lib spec/lib examples  -type f -name "*.js")
 TEST_FILES := spec/helper.js $(shell find spec/lib -type f -name "*.js")
 
 VERSION := $(shell node -e "console.log(require('./package.json').version)")
 
-# Our 'phony' make targets (don't involve any file changes)
-.PHONY: test bdd lint release
+.PHONY: default cover test bdd lint ci release
 
-# Run Mocha, with standard reporter.
+default: lint test
+
 test:
-	@$(BIN)/mocha -r cylon --colors $(TEST_FILES)
+	@$(BIN)/mocha --colors -R dot $(TEST_FILES)
 
-# Run Mocha, with more verbose BDD reporter.
 bdd:
-	@$(BIN)/mocha -r cylon --colors -R spec $(TEST_FILES)
+	@$(BIN)/mocha --colors -R spec $(TEST_FILES)
 
 cover:
 	@istanbul cover $(BIN)/_mocha $(TEST_FILES) --report lcovonly -- -R spec
 
-# Run JSHint
 lint:
-	@$(BIN)/jshint ./lib
+	@jshint $(FILES)
 
-# Cuts/publishes a new release
-release:
+ci: lint cover
+
+release: lint test
 	@git push origin master
 	@git checkout release ; git merge master ; git push ; git checkout master
 	@git tag -m "$(VERSION)" v$(VERSION)
