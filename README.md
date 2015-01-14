@@ -151,6 +151,8 @@ Thank you!
 
 ## Release History
 
+Version 0.15.0 - Compatibility with Cylon 0.22.0
+
 Version 0.14.1 - Fix pin and pi-blaster compatability for different board revisions
 
 Version 0.14.0 - Compatibility with Cylon 0.21.0
