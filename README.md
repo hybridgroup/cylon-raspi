@@ -12,7 +12,7 @@ Want to use Ruby on robots? Check out our sister project Artoo (http://artoo.io)
 
 Install the module with:
 
-    $ npm install cylon-raspi
+    $ npm install cylon cylon-raspi
 
 ## How to Use
 
