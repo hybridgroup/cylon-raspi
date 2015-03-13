@@ -15,6 +15,10 @@
 
   "license": "Apache 2.0",
 
+  "scripts": {
+    "install": "./scripts/install-i2c.sh"
+  },
+
   "devDependencies": {
     "sinon-chai": "~2.4.0",
     "chai":       "~1.7.2",
