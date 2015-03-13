@@ -151,6 +151,8 @@ Thank you!
 
 ## Release History
 
+Version 0.15.2 - Remove node-i2c dependency from package, it is now install via script
+
 Version 0.15.1 - Install node-i2c using script based on node version
 
 Version 0.15.0 - Compatibility with Cylon 0.22.0
