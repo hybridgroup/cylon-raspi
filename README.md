@@ -102,7 +102,11 @@ You will also need to update the /boot/config.txt file. Edit it add the followin
     dtparam=i2c1=on
     dtparam=i2c_arm=on
 
-Now restart your raspberry pi.
+Finally, you need to allow the `pi` user permissions to access the i2c interface bu running this command:
+
+    sudo usermod -G i2c pi
+
+Now restart your Raspberry Pi.
 
 ### Enabling PWM output on GPIO pins.
 
