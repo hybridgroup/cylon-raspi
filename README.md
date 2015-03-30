@@ -137,6 +137,8 @@ PINS = {
 };
 ```
 
+The website http://pi.gadgetoid.com/pinout has a great visual representation of this information.
+
 ## Documentation
 
 We're busy adding documentation to our web site at http://cylonjs.com/ please check there as we continue to work on Cylon.js
