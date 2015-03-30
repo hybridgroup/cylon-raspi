@@ -6,9 +6,13 @@ This module provides an adaptor for the Raspberry Pi single board computer (http
 
 Want to use Ruby on robots? Check out our sister project Artoo (http://artoo.io)
 
+Want to use the Go programming language to power your robots? Check out our sister project Gobot (http://gobot.io).
+
 [![Build Status](https://secure.travis-ci.org/hybridgroup/cylon-raspi.png?branch=master)](http://travis-ci.org/hybridgroup/cylon-raspi) [![Code Climate](https://codeclimate.com/github/hybridgroup/cylon-raspi/badges/gpa.svg)](https://codeclimate.com/github/hybridgroup/cylon-raspi) [![Test Coverage](https://codeclimate.com/github/hybridgroup/cylon-raspi/badges/coverage.svg)](https://codeclimate.com/github/hybridgroup/cylon-raspi)
 
 ## How to Install
+
+Installing Cylon.js for the Raspiberry Pi is easy, but must be done on the Raspi itself, or on another Linux computer. Due to I2C device support, the module cannot be installed on OS X or Windows.
 
 Install the module with:
 
@@ -38,9 +42,13 @@ Cylon.robot({
 
 ## How to Connect
 
+### Install the lastest Raspbian OS
+
+You can get it from here: http://www.raspberrypi.org/downloads/
+
 ### Connecting to Raspberry Pi GPIO
 
-This module only works on a real Raspberry Pi. Do not bother trying on any other kind of computer it will not work.
+This module only works on a real Raspberry Pi. Do not bother trying on any other kind of computer, it will not work.
 Also note you will need to connect actual circuits to the Raspberry Pi's GPIO pins.
 
 ### Enabling the Raspberry Pi i2c on Raspbian
@@ -194,4 +202,4 @@ Version 0.2.0 - Release for cylon 0.7.0
 Version 0.1.0 - Initial release
 
 ## License
-Copyright (c) 2013-2014 The Hybrid Group. Licensed under the Apache 2.0 license.
+Copyright (c) 2013-2015 The Hybrid Group. Licensed under the Apache 2.0 license.
