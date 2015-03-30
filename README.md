@@ -46,6 +46,40 @@ Cylon.robot({
 
 You can get it from here: http://www.raspberrypi.org/downloads/
 
+### Setting the Raspberry Pi keyboard
+
+Having trouble with your Raspberry Pi keyboard layout? Use the `sudo dpkg-reconfigure keyboard-configuration` command.
+
+### Update your Raspbian and install Node.js
+
+These commands need to be run after SSHing into the Raspi:
+
+```
+sudo apt-get upgrade; 
+sudo apt-get update
+wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz
+tar -xvzf node-v0.10.28-linux-arm-pi.tar.gz
+node-v0.10.28-linux-arm-pi/bin/node --version
+```
+
+You should see the node version you just installed.
+
+```
+$ node --version
+v0.10.28
+```
+
+Once you have installed Node.js, you need to add the following to your `~/.bash_profile` file. Create this file if it does not already exist, and add this to it:
+
+```
+NODE_JS_HOME=/home/pi/node-v0.10.28-linux-arm-pi 
+PATH=$PATH:$NODE_JS_HOME/bin 
+```
+
+This will setup the path for you every time you login. Run the `source ~/.bash_profile` command to load it right now without having to login again.
+
+Thanks [@joshmarinacci](https://github.com/joshmarinacci) for the blog post at http://joshondesign.com/2013/10/23/noderpi where these modified instructions were taken.
+
 ### Connecting to Raspberry Pi GPIO
 
 This module only works on a real Raspberry Pi. Do not bother trying on any other kind of computer, it will not work.
@@ -62,6 +96,11 @@ You must also ensure that these entries are commented in your `/etc/modprobe.d/r
 
     #blacklist spi-bcm2708
     #blacklist i2c-bcm2708
+
+You will also need to update the /boot/config.txt file. Edit it add the following text:
+
+    dtparam=i2c1=on
+    dtparam=i2c_arm=on
 
 Now restart your raspberry pi.
 
