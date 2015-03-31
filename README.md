@@ -204,6 +204,8 @@ Thank you!
 
 ## Release History
 
+Version 0.15.3 - Corrected functionality for i2c.
+
 Version 0.15.2 - Remove node-i2c dependency from package, it is now install via script
 
 Version 0.15.1 - Install node-i2c using script based on node version
