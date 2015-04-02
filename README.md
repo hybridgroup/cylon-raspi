@@ -54,27 +54,21 @@ Having trouble with your Raspberry Pi keyboard layout? Use the `sudo dpkg-reconf
 
 These commands need to be run after SSHing into the Raspi:
 
-```
-sudo apt-get upgrade; 
-sudo apt-get update
-wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz
-tar -xvzf node-v0.10.28-linux-arm-pi.tar.gz
-node-v0.10.28-linux-arm-pi/bin/node --version
-```
+    sudo apt-get upgrade
+    sudo apt-get update
+    wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz
+    tar -xvzf node-v0.10.28-linux-arm-pi.tar.gz
+    node-v0.10.28-linux-arm-pi/bin/node --version
 
 You should see the node version you just installed.
 
-```
-$ node --version
-v0.10.28
-```
+    $ node --version
+    v0.10.28
 
 Once you have installed Node.js, you need to add the following to your `~/.bash_profile` file. Create this file if it does not already exist, and add this to it:
 
-```
-NODE_JS_HOME=/home/pi/node-v0.10.28-linux-arm-pi 
-PATH=$PATH:$NODE_JS_HOME/bin 
-```
+    NODE_JS_HOME=/home/pi/node-v0.10.28-linux-arm-pi
+    PATH=$PATH:$NODE_JS_HOME/bin
 
 This will setup the path for you every time you login. Run the `source ~/.bash_profile` command to load it right now without having to login again.
 
