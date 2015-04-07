@@ -27,12 +27,6 @@
     "jshint":     "~2.4.4"
   },
 
-  "peerDependencies": {
-    "cylon":      ">= 0.22.0 < 1",
-    "cylon-gpio": ">= 0.22.0 < 1",
-    "cylon-i2c":  ">= 0.19.0 < 1"
-  },
-
   "dependencies": {
     "cylon":      "~0.22.0",
     "cylon-gpio": "~0.22.0",
