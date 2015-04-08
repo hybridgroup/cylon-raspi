@@ -198,6 +198,8 @@ Thank you!
 
 ## Release History
 
+Version 0.16.0 - Compatibility with Cylon 1.0.0
+
 Version 0.15.3 - Corrected functionality for i2c.
 
 Version 0.15.2 - Remove node-i2c dependency from package, it is now install via script
