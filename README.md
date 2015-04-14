@@ -79,6 +79,17 @@ Thanks [@joshmarinacci](https://github.com/joshmarinacci) for the blog post at h
 This module only works on a real Raspberry Pi. Do not bother trying on any other kind of computer, it will not work.
 Also note you will need to connect actual circuits to the Raspberry Pi's GPIO pins.
 
+In order to access the GPIO pins without using `sudo` you will need to both app the pi user to the `gpio` group:
+
+    sudo usermod -G gpio pi
+
+And also add the following udev rules file to ` /etc/udev/rules.d/91-gpio.rules`:
+
+    SUBSYSTEM=="gpio", KERNEL=="gpiochip*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys/class/gpio/export /sys/class/gpio/unexport ; chmod 220 /sys/class/gpio/export /sys/class/gpio/unexport'"
+    SUBSYSTEM=="gpio", KERNEL=="gpio*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value ; chmod 660 /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value'"
+
+Thanks to "MikeDK" for the above solution: https://www.raspberrypi.org/forums/viewtopic.php?p=198148#p198148
+
 ### Enabling the Raspberry Pi i2c on Raspbian
 
 You must add these two entries to your `/etc/modules`
@@ -96,7 +107,7 @@ You will also need to update the /boot/config.txt file. Edit it add the followin
     dtparam=i2c1=on
     dtparam=i2c_arm=on
 
-Finally, you need to allow the `pi` user permissions to access the i2c interface bu running this command:
+Finally, you need to allow the `pi` user permissions to access the i2c interface by running this command:
 
     sudo usermod -G i2c pi
 
