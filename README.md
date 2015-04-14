@@ -44,11 +44,13 @@ Cylon.robot({
 
 ### Install the lastest Raspbian OS
 
-You can get it from here: http://www.raspberrypi.org/downloads/
+You can get it from here: [http://www.raspberrypi.org/downloads/](http://www.raspberrypi.org/downloads/)
 
 ### Setting the Raspberry Pi keyboard
 
-Having trouble with your Raspberry Pi keyboard layout? Use the `sudo dpkg-reconfigure keyboard-configuration` command.
+Having trouble with your Raspberry Pi keyboard layout? Use the following command:
+
+    sudo dpkg-reconfigure keyboard-configuration
 
 ### Update your Raspbian and install Node.js
 
@@ -83,12 +85,12 @@ In order to access the GPIO pins without using `sudo` you will need to both app 
 
     sudo usermod -G gpio pi
 
-And also add the following udev rules file to ` /etc/udev/rules.d/91-gpio.rules`:
+And also add the following udev rules file to `/etc/udev/rules.d/91-gpio.rules`:
 
     SUBSYSTEM=="gpio", KERNEL=="gpiochip*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys/class/gpio/export /sys/class/gpio/unexport ; chmod 220 /sys/class/gpio/export /sys/class/gpio/unexport'"
     SUBSYSTEM=="gpio", KERNEL=="gpio*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value ; chmod 660 /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value'"
 
-Thanks to "MikeDK" for the above solution: https://www.raspberrypi.org/forums/viewtopic.php?p=198148#p198148
+Thanks to "MikeDK" for the above solution: [https://www.raspberrypi.org/forums/viewtopic.php?p=198148#p198148](https://www.raspberrypi.org/forums/viewtopic.php?p=198148#p198148)
 
 ### Enabling the Raspberry Pi i2c on Raspbian
 
