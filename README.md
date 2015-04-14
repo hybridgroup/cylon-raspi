@@ -54,8 +54,8 @@ Having trouble with your Raspberry Pi keyboard layout? Use the `sudo dpkg-reconf
 
 These commands need to be run after SSHing into the Raspi:
 
-    sudo apt-get upgrade
     sudo apt-get update
+    sudo apt-get upgrade
     wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz
     tar -xvzf node-v0.10.28-linux-arm-pi.tar.gz
     node-v0.10.28-linux-arm-pi/bin/node --version
