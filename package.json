@@ -13,7 +13,23 @@
     "url": "https://github.com/hybridgroup/cylon-raspi"
   },
 
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
+
+  "keywords": [
+    "cylon",
+    "cylonjs",
+    "cylons",
+    "robot",
+    "robots",
+    "robotics",
+    "iot",
+    "hardware",
+    "gpio",
+    "i2c",
+    "raspberry pi",
+    "raspberrypi",
+    "raspi"
+  ],
 
   "scripts": {
     "install": "./scripts/install-i2c.sh"
