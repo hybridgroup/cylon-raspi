@@ -1,8 +1,7 @@
-/* jshint expr:true */
 "use strict";
 
-var I2CDevice = source("i2c-device"),
-    MockI2C = source("i2c");
+var I2CDevice = lib("i2c-device"),
+    MockI2C = lib("i2c");
 
 var EventEmitter = require("events").EventEmitter;
 
@@ -56,10 +55,10 @@ describe("I2CDevice", function() {
     });
 
     it("sets @i2cWire to a new I2C interface", function() {
-      var wire = device.i2cWire;
-      expect(wire).to.be.an.instanceOf(MockI2C);
-      expect(wire.address).to.be.eql(0x4A);
-      expect(wire.device).to.be.eql("interface");
+      var i2cwire = device.i2cWire;
+      expect(i2cwire).to.be.an.instanceOf(MockI2C);
+      expect(i2cwire.address).to.be.eql(0x4A);
+      expect(i2cwire.device).to.be.eql("interface");
     });
   });
 

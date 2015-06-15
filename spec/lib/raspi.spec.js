@@ -1,13 +1,12 @@
-// jshint expr:true
 "use strict";
 
 var Cylon = require("cylon");
 
 var fs = require("fs");
 
-var Raspi = source("raspi"),
-    I2CDevice = source("i2c-device"),
-    PwmPin = source("pwm-pin");
+var Raspi = lib("raspi"),
+    I2CDevice = lib("i2c-device"),
+    PwmPin = lib("pwm-pin");
 
 describe("Cylon.Adaptors.Raspi", function() {
   var adaptor;
@@ -322,7 +321,7 @@ describe("Cylon.Adaptors.Raspi", function() {
 
     context("if the device doesn't exist", function() {
       it("creates a new one", function() {
-        expect(adaptor.i2cDevices[0x4a]).to.be["undefined"];
+        expect(adaptor.i2cDevices[0x4a]).to.be.undefined;
         adaptor._i2cDevice(0x4a);
         expect(adaptor.i2cDevices[0x4a]).to.be.an.instanceOf(I2CDevice);
       });

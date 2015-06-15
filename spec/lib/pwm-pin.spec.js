@@ -1,7 +1,6 @@
-// jshint expr:true
 "use strict";
 
-var PwmPin = source("pwm-pin");
+var PwmPin = lib("pwm-pin");
 
 describe("PwmPin", function() {
   var pin = new PwmPin({});

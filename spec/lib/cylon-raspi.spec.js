@@ -1,8 +1,7 @@
-// jshint expr:true
 "use strict";
 
-var raspi = source("cylon-raspi");
-var Adaptor = source("raspi");
+var raspi = lib("cylon-raspi");
+var Adaptor = lib("raspi");
 
 describe("cylon-raspi", function() {
   describe("#adaptors", function() {
