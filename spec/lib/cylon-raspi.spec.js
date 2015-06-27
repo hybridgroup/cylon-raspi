@@ -1,6 +1,6 @@
 "use strict";
 
-var raspi = lib("cylon-raspi");
+var raspi = lib("../");
 var Adaptor = lib("raspi");
 
 describe("cylon-raspi", function() {

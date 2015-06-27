@@ -1,7 +1,6 @@
 {
   "name": "cylon-raspi",
   "version": "0.16.0",
-  "main": "lib/cylon-raspi.js",
   "description": "Cylon adaptor for Raspberry Pi",
   "homepage": "http://cylonjs.com",
   "bugs": "https://github.com/hybridgroup/cylon-raspi/issues",
