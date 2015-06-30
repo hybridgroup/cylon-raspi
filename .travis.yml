@@ -16,4 +16,4 @@ install:
 
 script:
   - make ci
-  - CODECLIMATE_REPO_TOKEN=6b7b8f2f41a7cedceb5361aaf54dcce5bda2dff2366f82c433fc18007375c8c1 codeclimate < coverage/lcov.info
+  - CODECLIMATE_REPO_TOKEN=6b7b8f2f41a7cedceb5361aaf54dcce5bda2dff2366f82c433fc18007375c8c1 codeclimate-test-reporter < coverage/lcov.info
