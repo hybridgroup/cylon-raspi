@@ -35,10 +35,14 @@ describe("I2CDevice", function() {
   var device, wire;
 
   beforeEach(function() {
+    MockI2C.openSync = function() {
+    };
+
     device = new I2CDevice({
       address: 0x4A,
-      "interface": "interface"
+      bus: 1
     });
+    device.connect();
   });
 
   it("is an EventEmitter", function() {
@@ -50,15 +54,8 @@ describe("I2CDevice", function() {
       expect(device.address).to.be.eql(0x4A);
     });
 
-    it("sets @hdwInterface to the provided interface", function() {
-      expect(device.hdwInterface).to.be.eql("interface");
-    });
-
-    it("sets @i2cWire to a new I2C interface", function() {
-      var i2cwire = device.i2cWire;
-      expect(i2cwire).to.be.an.instanceOf(MockI2C);
-      expect(i2cwire.address).to.be.eql(0x4A);
-      expect(i2cwire.device).to.be.eql("interface");
+    it("sets @bus to the provided interface", function() {
+      expect(device.bus).to.be.eql(1);
     });
   });
 
@@ -67,20 +64,20 @@ describe("I2CDevice", function() {
 
     beforeEach(function() {
       callback = spy();
-      wire = device.i2cWire = { write: spy() };
+      wire = device.i2cWire = { i2cWrite: spy() };
       device.write("command", [1, 2, 3], callback);
     });
 
     it("writes a set of bytes to the I2C connection", function() {
-      var call = wire.write.firstCall;
+      var call = wire.i2cWrite.firstCall;
 
       var bufsMatch = compareBuffers(
         new Buffer(["command"].concat([1, 2, 3])),
-        call.args[0]
+        call.args[1]
       );
 
       expect(bufsMatch).to.be.eql(true);
-      expect(call.args[1]).to.be.eql(callback);
+      expect(call.args[2]).to.be.eql(callback);
     });
   });
 
@@ -89,16 +86,16 @@ describe("I2CDevice", function() {
 
     beforeEach(function() {
       callback = spy();
-      wire = device.i2cWire = { write: spy(), read: spy() };
+      wire = device.i2cWire = { i2cWrite: spy(), i2cRead: spy() };
       device.read("command", 1024, callback);
     });
 
     it("writes a command to the I2C connection", function() {
-      var call = wire.write.firstCall;
+      var call = wire.i2cWrite.firstCall;
 
       var bufsMatch = compareBuffers(
         new Buffer(["command"]),
-        call.args[0]
+        call.args[1]
       );
 
       expect(bufsMatch).to.be.eql(true);
@@ -106,7 +103,7 @@ describe("I2CDevice", function() {
 
     context("if the write fails", function() {
       beforeEach(function() {
-        wire.write.yield("error!");
+        wire.i2cWrite.yield("error!");
       });
 
       it("triggers the callback with an error", function() {
@@ -116,11 +113,11 @@ describe("I2CDevice", function() {
 
     context("if the write succeeds", function() {
       beforeEach(function() {
-        wire.write.yield(null);
+        wire.i2cWrite.yield(null);
       });
 
       it("reads the specified data from the I2C device", function() {
-        expect(wire.read).to.be.calledWith(1024, callback);
+        expect(wire.i2cRead).to.be.calledWith(0x4A, 1024, callback);
       });
     });
   });
@@ -130,12 +127,12 @@ describe("I2CDevice", function() {
 
     beforeEach(function() {
       callback = spy();
-      wire = device.i2cWire = { writeByte: spy() };
+      wire = device.i2cWire = { sendByte: spy() };
       device.writeByte(1, callback);
     });
 
     it("writes a single byte to the I2C connection", function() {
-      expect(wire.writeByte).to.be.calledWith(1, callback);
+      expect(wire.sendByte).to.be.calledWith(0x4A, 1, callback);
     });
   });
 
@@ -144,12 +141,12 @@ describe("I2CDevice", function() {
 
     beforeEach(function() {
       callback = spy();
-      wire = device.i2cWire = { readByte: spy() };
+      wire = device.i2cWire = { receiveByte: spy() };
       device.readByte(callback);
     });
 
     it("reads a single byte from the I2C connection", function() {
-      expect(wire.readByte).to.be.calledWith(callback);
+      expect(wire.receiveByte).to.be.calledWith(0x4A, callback);
     });
   });
 });
