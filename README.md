@@ -2,7 +2,7 @@
 
 Cylon.js (http://cylonjs.com) is a JavaScript framework for robotics, physical computing, and the Internet of Things (IoT).
 
-This module provides an adaptor for the Raspberry Pi single board computer (http://www.raspberrypi.org/). It currently works with both the Raspberry Pi & Raspberry Pi 2.
+This module provides an adaptor for the Raspberry Pi single board computer (http://www.raspberrypi.org/). It currently works with all models of Raspberry Pi including the Raspberry Pi 2 and Raspberry Pi 3.
 
 Want to use Ruby on robots? Check out our sister project Artoo (http://artoo.io)
 
@@ -208,4 +208,4 @@ For the release history, please go to [https://github.com/hybridgroup/cylon-rasp
 ).
 
 ## License
-Copyright (c) 2013-2015 The Hybrid Group. Licensed under the Apache 2.0 license.
+Copyright (c) 2013-2016 The Hybrid Group. Licensed under the Apache 2.0 license.
