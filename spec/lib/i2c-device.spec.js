@@ -86,39 +86,17 @@ describe("I2CDevice", function() {
 
     beforeEach(function() {
       callback = spy();
-      wire = device.i2cWire = { i2cWrite: spy(), i2cRead: spy() };
-      device.read("command", 1024, callback);
+      wire = device.i2cWire = { readI2cBlock: spy() };
+      device.read("c", 1024, callback);
     });
 
-    it("writes a command to the I2C connection", function() {
-      var call = wire.i2cWrite.firstCall;
+    it("reads register from I2C connection", function() {
+      var call = wire.readI2cBlock.firstCall;
 
-      var bufsMatch = compareBuffers(
-        new Buffer(["command"]),
-        call.args[2]
-      );
-
-      expect(bufsMatch).to.be.eql(true);
-    });
-
-    context("if the write fails", function() {
-      beforeEach(function() {
-        wire.i2cWrite.yield("error!");
-      });
-
-      it("triggers the callback with an error", function() {
-        expect(callback).to.be.calledWith("error!", null);
-      });
-    });
-
-    context("if the write succeeds", function() {
-      beforeEach(function() {
-        wire.i2cWrite.yield(null);
-      });
-
-      it("reads the specified data from the I2C device", function() {
-        expect(wire.i2cRead).to.be.calledWith(0x4A, 1024, callback);
-      });
+      expect(call.args[0]).to.be.eql(0x4A);
+      expect(call.args[1]).to.be.eql("c");
+      expect(call.args[2]).to.be.eql(1024);
+      expect(call.args[4]).to.be.eql(callback);
     });
   });
 
