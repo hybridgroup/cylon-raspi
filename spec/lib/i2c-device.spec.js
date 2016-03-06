@@ -73,11 +73,11 @@ describe("I2CDevice", function() {
 
       var bufsMatch = compareBuffers(
         new Buffer(["command"].concat([1, 2, 3])),
-        call.args[1]
+        call.args[2]
       );
 
       expect(bufsMatch).to.be.eql(true);
-      expect(call.args[2]).to.be.eql(callback);
+      expect(call.args[3]).to.be.eql(callback);
     });
   });
 
@@ -95,7 +95,7 @@ describe("I2CDevice", function() {
 
       var bufsMatch = compareBuffers(
         new Buffer(["command"]),
-        call.args[1]
+        call.args[2]
       );
 
       expect(bufsMatch).to.be.eql(true);
