@@ -42,7 +42,7 @@ Cylon.robot({
 
 ## How to Connect
 
-### Install the lastest Raspbian OS
+### Install the latest Raspbian OS
 
 You can get it from here: [http://www.raspberrypi.org/downloads/](http://www.raspberrypi.org/downloads/)
 
@@ -58,23 +58,23 @@ These commands need to be run after SSHing into the Raspi:
 
     sudo apt-get update
     sudo apt-get upgrade
-    wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz
-    tar -xvzf node-v0.10.28-linux-arm-pi.tar.gz
-    node-v0.10.28-linux-arm-pi/bin/node --version
+
+### Install Node.js
+
+You can either install the latest Node.js via the Nodesource Debian repo, or else use `nvm` (https://github.com/creationix/nvm).
+
+To use the Debian package, first add the Nodesource package repo:
+
+    curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+
+Then install the latest Node.js by running this command:
+
+    sudo apt-get install -y nodejs
 
 You should see the node version you just installed.
 
     $ node --version
-    v0.10.28
-
-Once you have installed Node.js, you need to add the following to your `~/.bash_profile` file. Create this file if it does not already exist, and add this to it:
-
-    NODE_JS_HOME=/home/pi/node-v0.10.28-linux-arm-pi
-    PATH=$PATH:$NODE_JS_HOME/bin
-
-This will setup the path for you every time you login. Run the `source ~/.bash_profile` command to load it right now without having to login again.
-
-Thanks [@joshmarinacci](https://github.com/joshmarinacci) for the blog post at http://joshondesign.com/2013/10/23/noderpi where these modified instructions were taken.
+    v5.6.0
 
 ### Connecting to Raspberry Pi GPIO
 
