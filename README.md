@@ -94,6 +94,18 @@ Thanks to "MikeDK" for the above solution: [https://www.raspberrypi.org/forums/v
 
 ### Enabling the Raspberry Pi i2c on Raspbian
 
+#### Easy Install
+
+The really easy way to configure your i2c is to use the `i2c-tools` extensions for `raspi-config`. You can install it like this:
+
+```
+sudo apt-get install i2c-tools
+```
+
+Once installed, run `sudo raspi-config` and choose the "Advanced Settings" menu. Select the "I2C Settings" and follow the prompts. You will need to reboot after changing the settings.
+
+#### Manual Install
+
 You must add these two entries to your `/etc/modules`
 
     i2c-bcm2708
