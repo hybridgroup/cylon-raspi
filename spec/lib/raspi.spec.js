@@ -6,7 +6,8 @@ var fs = require("fs");
 
 var Raspi = lib("raspi"),
     I2CDevice = lib("i2c-device"),
-    PwmPin = lib("pwm-pin");
+    PwmPin = lib("pwm-pin"),
+    MockI2C = lib("i2c");
 
 describe("Cylon.Adaptors.Raspi", function() {
   var adaptor;
@@ -80,11 +81,11 @@ describe("Cylon.Adaptors.Raspi", function() {
     });
 
     it("sets @i2cInterface based on CPU info", function() {
-      expect(adaptor.i2cInterface).to.be.eql("/dev/i2c-1");
+      expect(adaptor.bus).to.be.eql(1);
 
       adaptor._cpuinfo.returns("Revision : 0001");
       adaptor.connect(callback);
-      expect(adaptor.i2cInterface).to.be.eql("/dev/i2c-0");
+      expect(adaptor.bus).to.be.eql(0);
     });
 
     it("triggers the callback", function() {
@@ -312,6 +313,7 @@ describe("Cylon.Adaptors.Raspi", function() {
     context("if the device already exists", function() {
       beforeEach(function() {
         adaptor.i2cDevices[0x4a] = "a device";
+        MockI2C.openSync = function() {};
       });
 
       it("returns it", function() {
