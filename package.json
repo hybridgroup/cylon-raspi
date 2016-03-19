@@ -30,16 +30,16 @@
     "raspi"
   ],
 
-  "scripts": {
-    "install": "./scripts/install-i2c.sh"
-  },
-
   "devDependencies": {
     "sinon-chai": "~2.4.0",
     "chai":       "~1.7.2",
     "mocha":      "~1.12.1",
     "sinon":      "~1.7.3",
     "eslint":     "0.22.1"
+  },
+
+  "optionalDependencies": {
+    "i2c-bus":      "^1.0.0"
   },
 
   "dependencies": {
