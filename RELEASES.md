@@ -1,5 +1,7 @@
 ## Release History
 
+Version 0.20.0 - Use Cylon 1.3.0, cleanup dependencies
+
 Version 0.19.0 - Rewrite to use i2c-bus module, now supports all current versions of Node.js
 
 Version 0.18.0 - Use Cylon 1.2.0

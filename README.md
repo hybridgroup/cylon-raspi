@@ -16,7 +16,7 @@ Installing Cylon.js for the Raspberry Pi is easy, but must be done on the Raspi 
 
 Install the module with:
 
-    $ npm install cylon cylon-raspi
+    $ npm install cylon cylon-raspi cylon-gpio cylon-i2c
 
 ## How to Use
 
