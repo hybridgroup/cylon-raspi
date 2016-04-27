@@ -96,7 +96,6 @@ describe("I2CDevice", function() {
       expect(call.args[0]).to.be.eql(0x4A);
       expect(call.args[1]).to.be.eql("c");
       expect(call.args[2]).to.be.eql(1024);
-      expect(call.args[4]).to.be.eql(callback);
     });
   });
 
